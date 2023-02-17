@@ -57,6 +57,8 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
       if (type === "VKWebAppOpenCodeReaderFailed") {
         // Catching the error
         console.log(data.error_type, data.error_data);
+        if (data.error_data.error_code == 6) {
+        }
       }
     });
   }, []);
@@ -95,12 +97,21 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
                         </PanelHeaderButton>
                       }
                     >
-                      Главная
+                      Главнаяf
+                      <Button
+                        onClick={() => router.toPanel(PanelTypes.MAIN_ABOUT)}
+                      >
+                        Knopka
+                      </Button>
                     </PanelHeader>
                   </Panel>
                   <Panel id={PanelTypes.MAIN_ABOUT}>
                     <PanelHeader
-                      before={<PanelHeaderBack onClick={router.toBack} />}
+                      before={
+                        <PanelHeaderBack onClick={router.toBack}>
+                          Tets
+                        </PanelHeaderBack>
+                      }
                     >
                       О нас
                     </PanelHeader>
