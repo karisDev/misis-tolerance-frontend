@@ -15,7 +15,6 @@ import {
   SplitLayout,
   Tabbar,
   TabbarItem,
-  usePlatform,
   View,
 } from "@vkontakte/vkui";
 import {
@@ -27,17 +26,21 @@ import ModalsRoot from "./components/modals/ModalsRoot";
 import MobileNavigation from "./components/navigation/mobile";
 import bridge from "@vkontakte/vk-bridge";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { set } from "./store";
 
+// вместо HOC witRouter для функциональных компонентов можно использовать хуки
+// const { activeView, activePanel } = useRouterSelector();
+// const { toView, toPanel, toBack } = useRouterActions();
 const App = ({ router }: { viewWidth: number; router: any }) => {
-  // вместо HOC witRouter для функциональных компонентов можно использовать хуки
-  // const { activeView, activePanel } = useRouterSelector();
-  // const { toView, toPanel, toBack } = useRouterActions();
-  const platform = usePlatform();
+  const mainStorage = useSelector((state: any) => state.main);
+  const dispatch = useDispatch();
 
   const OnScanQRClick = () => {
     // Sending method
     bridge.send("VKWebAppOpenCodeReader", {});
   };
+
   useEffect(() => {
     bridge.subscribe((event) => {
       if (!event.detail) {
@@ -57,6 +60,18 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
       }
     });
   }, []);
+
+  useEffect(() => {
+    if (mainStorage.user) return;
+
+    bridge.send("VKWebAppGetUserInfo").then((user) => {
+      dispatch(set({ user }));
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log(mainStorage);
+  }, [mainStorage]);
 
   return (
     <ConfigProvider>
