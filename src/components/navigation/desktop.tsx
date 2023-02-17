@@ -10,8 +10,8 @@ const DesktopNavigation = ({ router }: { router: any }) => {
         <PanelHeader />
         <Group>
           <Cell
-            onClick={() => router.toView(ViewTypes.MAIN)}
-            selected={router.activeView == ViewTypes.MAIN}
+            onClick={() => router.toView(ViewTypes.EVENTS)}
+            selected={router.activeView == ViewTypes.EVENTS}
             before={<Icon28NewsfeedOutline />}
           >
             Главная

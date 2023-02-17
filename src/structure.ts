@@ -2,29 +2,29 @@
 import { IStructure } from "react-router-vkminiapps";
 
 export enum ViewTypes {
-  MAIN = "MAIN",
+  EVENTS = "EVENTS",
   SETTINGS = "SETTINGS",
   TICKETS = "TICKETS",
 }
 
 export enum PanelTypes {
-  MAIN_HOME = "MAIN_HOME",
-  MAIN_ABOUT = "MAIN_ABOUT",
+  EVENTS_HOME = "EVENTS_HOME",
+  EVENTS_ABOUT = "EVENTS_ABOUT",
   SETTINGS = "SETTINGS",
   TICKETS_HOME = "TICKETS",
 }
 
 const structure: IStructure = [
   {
-    id: ViewTypes.MAIN,
-    hash: "main",
+    id: ViewTypes.EVENTS,
+    hash: "events",
     panels: [
       {
-        id: PanelTypes.MAIN_HOME,
+        id: PanelTypes.EVENTS_HOME,
         hash: "/home",
       },
       {
-        id: PanelTypes.MAIN_ABOUT,
+        id: PanelTypes.EVENTS_ABOUT,
         hash: "/about",
       },
     ],

@@ -6,6 +6,7 @@ import {
   Button,
   ConfigProvider,
   Epic,
+  Group,
   Panel,
   PanelHeader,
   PanelHeaderBack,
@@ -28,6 +29,10 @@ import bridge from "@vkontakte/vk-bridge";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { set } from "./store";
+import EventsPanelHome from "./panels/events/home";
+import EventsPanelAbout from "./panels/events/about";
+import BackPlayground from "./components/solana/BackPlayground";
+import "@solana/wallet-adapter-react-ui/styles.css";
 
 // вместо HOC witRouter для функциональных компонентов можно использовать хуки
 // const { activeView, activePanel } = useRouterSelector();
@@ -88,40 +93,20 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
                 activeStory={router.activeView}
                 tabbar={<MobileNavigation />}
               >
-                <View id={ViewTypes.MAIN} activePanel={router.activePanel}>
-                  <Panel id={PanelTypes.MAIN_HOME}>
-                    <PanelHeader
-                      before={
-                        <PanelHeaderButton onClick={OnScanQRClick}>
-                          <Icon28QrCodeOutline />
-                        </PanelHeaderButton>
-                      }
-                    >
-                      Главнаяf
-                      <Button
-                        onClick={() => router.toPanel(PanelTypes.MAIN_ABOUT)}
-                      >
-                        Knopka
-                      </Button>
-                    </PanelHeader>
+                <View id={ViewTypes.EVENTS} activePanel={router.activePanel}>
+                  <Panel id={PanelTypes.EVENTS_HOME}>
+                    <EventsPanelHome OnScanQR={OnScanQRClick} />
                   </Panel>
-                  <Panel id={PanelTypes.MAIN_ABOUT}>
-                    <PanelHeader
-                      before={
-                        <PanelHeaderBack onClick={router.toBack}>
-                          Tets
-                        </PanelHeaderBack>
-                      }
-                    >
-                      О нас
-                    </PanelHeader>
-                    ...ы
+                  <Panel id={PanelTypes.EVENTS_ABOUT}>
+                    <EventsPanelAbout />
                   </Panel>
                 </View>
                 <View id={ViewTypes.SETTINGS} activePanel={router.activePanel}>
                   <Panel id={PanelTypes.SETTINGS}>
                     <PanelHeader>Настройки</PanelHeader>
-                    тест
+                    <Group>
+                      <BackPlayground />
+                    </Group>
                   </Panel>
                 </View>
               </Epic>

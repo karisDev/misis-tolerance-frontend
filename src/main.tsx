@@ -7,15 +7,18 @@ import "@vkontakte/vkui/dist/vkui.css";
 import { Provider } from "react-redux";
 import bridge from "@vkontakte/vk-bridge";
 import store from "./store";
+import WalletAdapterContext from "./components/solana/WalletAdapter";
 
 bridge.send("VKWebAppInit");
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider structure={structure}>
-        <App />
-      </RouterProvider>
-    </Provider>
+    <WalletAdapterContext>
+      <Provider store={store}>
+        <RouterProvider structure={structure}>
+          <App />
+        </RouterProvider>
+      </Provider>
+    </WalletAdapterContext>
   </React.StrictMode>
 );

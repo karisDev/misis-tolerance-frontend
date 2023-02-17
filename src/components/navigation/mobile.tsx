@@ -8,8 +8,8 @@ const MobileNavigation = ({ router }: { router: any }) => {
     <Tabbar>
       <TabbarItem
         aria-label="Главная"
-        onClick={() => router.toView(ViewTypes.MAIN)}
-        selected={router.activeView === ViewTypes.MAIN}
+        onClick={() => router.toView(ViewTypes.EVENTS)}
+        selected={router.activeView === ViewTypes.EVENTS}
         text="Главная"
       >
         <Icon28NewsfeedOutline />
