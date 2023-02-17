@@ -1,7 +1,6 @@
 // structure.ts
 import { IStructure } from "react-router-vkminiapps";
 
-// для удобства можно использовать enum typescript
 export enum ViewTypes {
   MAIN = "MAIN",
   SETTINGS = "SETTINGS",
