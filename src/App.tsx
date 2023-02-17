@@ -20,6 +20,7 @@ import {
 import { Icon28NewsfeedOutline, Icon28ServicesOutline } from "@vkontakte/icons";
 import ModalsRoot from "./modals/ModalsRoot";
 import MobileNavigation from "./navigation/mobile";
+import bridge from "@vkontakte/vk-bridge";
 
 const App = ({ router }: { viewWidth: number; router: any }) => {
   // вместо HOC witRouter для функциональных компонентов можно использовать хуки
@@ -38,12 +39,35 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
             <SplitCol>
               <Epic
                 activeStory={router.activeView}
-                tabbar={platform == Platform.VKCOM && <MobileNavigation />}
+                tabbar={<MobileNavigation />}
               >
                 <View id={ViewTypes.MAIN} activePanel={router.activePanel}>
                   <Panel id={PanelTypes.MAIN_HOME}>
                     <PanelHeader>Главная</PanelHeader>
-                    <Button onClick={() => router.toModal("test_modal")}>
+                    <Button
+                      onClick={() => {
+                        bridge.subscribe((event) => {
+                          if (!event.detail) {
+                            return;
+                          }
+
+                          const { type, data } = event.detail;
+
+                          if (type === "VKWebAppOpenCodeReaderResult") {
+                            // Reading result of the Code Reader
+                            console.log(data.code_data);
+                          }
+
+                          if (type === "VKWebAppOpenCodeReaderFailed") {
+                            // Catching the error
+                            console.log(data.error_type, data.error_data);
+                          }
+                        });
+
+                        // Sending method
+                        bridge.send("VKWebAppOpenCodeReader", {});
+                      }}
+                    >
                       Tset
                     </Button>
                   </Panel>
