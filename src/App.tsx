@@ -4,64 +4,41 @@ import {
   AdaptivityProvider,
   AppRoot,
   Button,
-  CellButton,
   ConfigProvider,
   Epic,
-  Group,
-  ModalPage,
-  ModalPageHeader,
-  ModalRoot,
   Panel,
   PanelHeader,
   PanelHeaderBack,
-  PanelHeaderClose,
-  Placeholder,
+  Platform,
   SplitCol,
   SplitLayout,
   Tabbar,
   TabbarItem,
+  usePlatform,
   View,
 } from "@vkontakte/vkui";
-import {
-  Icon28NewsfeedOutline,
-  Icon28ServicesOutline,
-  Icon56MoneyTransferOutline,
-} from "@vkontakte/icons";
+import { Icon28NewsfeedOutline, Icon28ServicesOutline } from "@vkontakte/icons";
 import ModalsRoot from "./modals/ModalsRoot";
+import MobileNavigation from "./navigation/mobile";
 
-const App = ({ router }: { router: any }) => {
+const App = ({ router }: { viewWidth: number; router: any }) => {
   // вместо HOC witRouter для функциональных компонентов можно использовать хуки
   // const { activeView, activePanel } = useRouterSelector();
   // const { toView, toPanel, toBack } = useRouterActions();
-
-  const modal = <ModalsRoot />;
+  const platform = usePlatform();
 
   return (
     <ConfigProvider>
       <AppRoot>
         <AdaptivityProvider>
-          <SplitLayout modal={modal}>
+          <SplitLayout
+            style={{ justifyContent: "center" }}
+            modal={<ModalsRoot />}
+          >
             <SplitCol>
               <Epic
                 activeStory={router.activeView}
-                tabbar={
-                  <Tabbar>
-                    <TabbarItem
-                      onClick={() => router.toView(ViewTypes.MAIN)}
-                      selected={router.activeView === ViewTypes.MAIN}
-                      text="Главная"
-                    >
-                      <Icon28NewsfeedOutline />
-                    </TabbarItem>
-                    <TabbarItem
-                      onClick={() => router.toView(ViewTypes.SETTINGS)}
-                      selected={router.activeView === ViewTypes.SETTINGS}
-                      text="Настройки"
-                    >
-                      <Icon28ServicesOutline />
-                    </TabbarItem>
-                  </Tabbar>
-                }
+                tabbar={platform == Platform.VKCOM && <MobileNavigation />}
               >
                 <View id={ViewTypes.MAIN} activePanel={router.activePanel}>
                   <Panel id={PanelTypes.MAIN_HOME}>
