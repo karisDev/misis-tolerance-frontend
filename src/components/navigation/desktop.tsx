@@ -1,7 +1,7 @@
 import { Icon28NewsfeedOutline, Icon28ServicesOutline } from "@vkontakte/icons";
 import { SplitCol, Panel, PanelHeader, Group, Cell } from "@vkontakte/vkui";
 import { withRouter } from "react-router-vkminiapps";
-import { ViewTypes } from "../structure";
+import { ViewTypes } from "../../structure";
 
 const DesktopNavigation = ({ router }: { router: any }) => {
   return (

@@ -9,6 +9,7 @@ import {
   Panel,
   PanelHeader,
   PanelHeaderBack,
+  PanelHeaderButton,
   Platform,
   SplitCol,
   SplitLayout,
@@ -17,16 +18,45 @@ import {
   usePlatform,
   View,
 } from "@vkontakte/vkui";
-import { Icon28NewsfeedOutline, Icon28ServicesOutline } from "@vkontakte/icons";
-import ModalsRoot from "./modals/ModalsRoot";
-import MobileNavigation from "./navigation/mobile";
+import {
+  Icon28NewsfeedOutline,
+  Icon28QrCodeOutline,
+  Icon28ServicesOutline,
+} from "@vkontakte/icons";
+import ModalsRoot from "./components/modals/ModalsRoot";
+import MobileNavigation from "./components/navigation/mobile";
 import bridge from "@vkontakte/vk-bridge";
+import { useEffect } from "react";
 
 const App = ({ router }: { viewWidth: number; router: any }) => {
   // вместо HOC witRouter для функциональных компонентов можно использовать хуки
   // const { activeView, activePanel } = useRouterSelector();
   // const { toView, toPanel, toBack } = useRouterActions();
   const platform = usePlatform();
+
+  const OnScanQRClick = () => {
+    // Sending method
+    bridge.send("VKWebAppOpenCodeReader", {});
+  };
+  useEffect(() => {
+    bridge.subscribe((event) => {
+      if (!event.detail) {
+        return;
+      }
+
+      const { type, data } = event.detail;
+
+      if (type === "VKWebAppOpenCodeReaderResult") {
+        // Reading result of the Code Reader
+        console.log(data.code_data);
+      }
+
+      if (type === "VKWebAppOpenCodeReaderFailed") {
+        // Catching the error
+        console.log(data.error_type, data.error_data);
+      }
+    });
+  }, []);
 
   return (
     <ConfigProvider>
@@ -43,33 +73,15 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
               >
                 <View id={ViewTypes.MAIN} activePanel={router.activePanel}>
                   <Panel id={PanelTypes.MAIN_HOME}>
-                    <PanelHeader>Главная</PanelHeader>
-                    <Button
-                      onClick={() => {
-                        bridge.subscribe((event) => {
-                          if (!event.detail) {
-                            return;
-                          }
-
-                          const { type, data } = event.detail;
-
-                          if (type === "VKWebAppOpenCodeReaderResult") {
-                            // Reading result of the Code Reader
-                            console.log(data.code_data);
-                          }
-
-                          if (type === "VKWebAppOpenCodeReaderFailed") {
-                            // Catching the error
-                            console.log(data.error_type, data.error_data);
-                          }
-                        });
-
-                        // Sending method
-                        bridge.send("VKWebAppOpenCodeReader", {});
-                      }}
+                    <PanelHeader
+                      before={
+                        <PanelHeaderButton onClick={OnScanQRClick}>
+                          <Icon28QrCodeOutline />
+                        </PanelHeaderButton>
+                      }
                     >
-                      Tset
-                    </Button>
+                      Главная
+                    </PanelHeader>
                   </Panel>
                   <Panel id={PanelTypes.MAIN_ABOUT}>
                     <PanelHeader
