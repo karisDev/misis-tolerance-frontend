@@ -13,6 +13,9 @@
   .eventCard__itemCount {
     margin: 0;
     margin-left: 8px;
-    font-family: var(--vkui--font_family_base);
+  }
+  .eventCard__itemCount {
+    color: var(--vkui--color_text_accent);
+    font-weight: bold;
   }
 }
