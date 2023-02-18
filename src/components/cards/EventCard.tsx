@@ -4,11 +4,17 @@ interface EventCardProps {
   title: string;
   imgSrc?: string;
   itemCount: number;
+  onClick?: () => void;
 }
 
-const EventCard: FC<EventCardProps> = ({ title, imgSrc, itemCount }) => {
+const EventCard: FC<EventCardProps> = ({
+  title,
+  imgSrc,
+  itemCount,
+  onClick,
+}) => {
   return (
-    <div className="eventCard">
+    <div className="eventCard" onClick={onClick}>
       <img
         className="eventCard__img"
         src={imgSrc ? imgSrc : "https://picsum.photos/200/200"}

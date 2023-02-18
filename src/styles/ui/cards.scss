@@ -1,6 +1,7 @@
 .eventCard {
   display: flex;
   flex-direction: column;
+  cursor: pointer;
   .eventCard__img {
     aspect-ratio: 1/1;
     width: 100%;
@@ -13,9 +14,10 @@
   .eventCard__itemCount {
     margin: 0;
     margin-left: 8px;
+    font-weight: 600;
   }
   .eventCard__itemCount {
     color: var(--vkui--color_text_accent);
-    font-weight: bold;
+    font-weight: 500;
   }
 }
