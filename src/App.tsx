@@ -35,8 +35,8 @@ import { useWallet } from "@solana/wallet-adapter-react";
 const App = ({ router }: { viewWidth: number; router: any }) => {
   const mainStorage = useSelector((state: any) => state.main);
   const dispatch = useDispatch();
-  // const publicKey = true;
-  const { publicKey } = useWallet();
+  const publicKey = true;
+  // const { publicKey } = useWallet();
 
   const OnScanQRClick = () => {
     console.log("hello");
@@ -101,7 +101,9 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
         router.toView(ViewTypes.WALLET);
       }, 100);
     } else {
-      router.toView(ViewTypes.EVENTS);
+      setTimeout(() => {
+        router.toView(ViewTypes.EVENTS);
+      }, 100);
     }
   }, [publicKey]);
 

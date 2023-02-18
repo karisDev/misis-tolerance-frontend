@@ -1,3 +1,4 @@
+import { Icon24CameraOutline } from "@vkontakte/icons";
 import {
   PanelHeader,
   Group,
@@ -9,12 +10,23 @@ import {
   DatePicker,
   FormLayoutGroup,
   Button,
+  File,
 } from "@vkontakte/vkui";
 import { FormEvent, useState } from "react";
 import { withRouter } from "react-router-vkminiapps";
 
 const ProfilePanelNewEvent = ({ router }: { router: any }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [valueName, setValueName] = useState("");
+  const [valueLocation, setValueLocation] = useState("");
+  const [valueTime, setValueTime] = useState("");
+  const [valueDescription, setValueDescription] = useState("");
+  const [valuePhoto, setValuePhoto] = useState<any>();
+  const [error, setError] = useState("");
+
+  const onFileUpload = (e: any) => {
+    setValuePhoto(e.target.files[0]);
+  };
 
   const handleDateChange = ({
     day,
@@ -31,7 +43,45 @@ const ProfilePanelNewEvent = ({ router }: { router: any }) => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(e);
+
+    if (!valueName || !valueLocation || !valueTime || !valueDescription) {
+      setError("Заполните все поля");
+      return;
+    }
+
+    const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+    if (!timeRegex.test(valueTime)) {
+      setError("Неверный формат времени");
+      return;
+    }
+
+    // validate photo
+    if (!valuePhoto) {
+      setError("Загрузите фото");
+      return;
+    }
+
+    setError("");
+
+    const formData = new FormData();
+    formData.append("name", valueName);
+    formData.append("location", valueLocation);
+    formData.append("date", selectedDate.toISOString());
+    formData.append("time", valueTime);
+    formData.append("description", valueDescription);
+    formData.append("photo", valuePhoto);
+
+    // fetch("https://api.vk.com/method/photos.getMessagesUploadServer", {
+    //   method: "POST",
+    //   body: formData,
+    // })
+    //   .then((response) => response.json())
+    //   .then((result) => {
+    //     console.log("Success:", result);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error:", error);
+    //   });
   };
 
   return (
@@ -42,13 +92,19 @@ const ProfilePanelNewEvent = ({ router }: { router: any }) => {
       <Group>
         <FormLayout onSubmit={handleSubmit}>
           <FormItem top="Название">
-            <Input name="name" placeholder="Олимпийский" required />
+            <Input
+              name="name"
+              placeholder="Олимпийский"
+              required
+              onChange={(e) => setValueName(e.target.value)}
+            />
           </FormItem>
           <FormItem top="Место">
             <Input
               name="location"
               placeholder="Москва, Ленинский проспект, 103"
               required
+              onChange={(e) => setValueLocation(e.target.value)}
             />
           </FormItem>
           <FormItem top="Дата проведения">
@@ -65,16 +121,39 @@ const ProfilePanelNewEvent = ({ router }: { router: any }) => {
             />
           </FormItem>
           <FormItem top="Время проведения">
-            <Input name="time" placeholder="12:00" required />
+            <Input
+              name="time"
+              placeholder="12:00"
+              required
+              onChange={(e) => setValueTime(e.target.value)}
+            />
           </FormItem>
           <FormItem top="Краткое описание">
-            <Input name="description" placeholder="Олимпийский" required />
+            <Input
+              name="description"
+              placeholder="Олимпийский"
+              required
+              onChange={(e) => setValueDescription(e.target.value)}
+            />
           </FormItem>
+          {error && <Div style={{ color: "red" }}>{error}</Div>}
           <FormItem>
             <Button type="submit" size="l" stretched>
               Создать
             </Button>
           </FormItem>
+          <FormLayoutGroup mode="horizontal">
+            <FormItem top="Загрузите ваше фото">
+              <File
+                onChange={onFileUpload}
+                before={<Icon24CameraOutline role="presentation" />}
+                size="m"
+              >
+                Открыть галерею
+              </File>
+            </FormItem>
+            {valuePhoto && <p style={{ margin: 0 }}>{valuePhoto.name}</p>}
+          </FormLayoutGroup>
         </FormLayout>
       </Group>
     </>
