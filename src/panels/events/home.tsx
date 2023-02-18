@@ -13,17 +13,35 @@ import {
   PanelHeaderButton,
   Search,
 } from "@vkontakte/vkui";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import { withRouter } from "react-router-vkminiapps";
 import EventCard from "../../components/cards/EventCard";
 import { PanelTypes } from "../../structure";
 
+const eventsExample = [
+  {
+    title: "Концерт “Максим”",
+    itemCount: 24,
+    id: 1,
+  },
+  {
+    title: "Концерт “Кирилл”",
+    itemCount: 24,
+    id: 2,
+  },
+  {
+    title: "Концерт “Олег”",
+    itemCount: 24,
+    id: 3,
+  },
+];
+
 const EventsPanelHome = ({
   router,
-  OnScanQRClick: OnScanQR,
+  openEventById,
 }: {
   router: any;
-  OnScanQRClick: () => void;
+  openEventById?: (id: number) => void;
 }) => {
   const [search, setSearch] = useState("");
 
@@ -32,40 +50,46 @@ const EventsPanelHome = ({
       setSearch(e.currentTarget.value);
     }
   };
+
   return (
     <>
       <PanelHeader
         before={
-          <PanelHeaderButton onClick={OnScanQR}>
+          <PanelHeaderButton>
             <Icon28QrCodeOutline />
           </PanelHeaderButton>
         }
       >
         Мероприятия
       </PanelHeader>
-      <Div>
-        <div style={{ display: "flex" }}>
-          <Search
-            value={search}
-            onChange={onSearchChange}
-            after={
-              <IconButton>
-                <Icon20FilterOutline />
-              </IconButton>
-            }
-          />
-        </div>
+      <div className="events">
+        <Search
+          value={search}
+          onChange={onSearchChange}
+          after={
+            <IconButton>
+              <Icon20FilterOutline />
+            </IconButton>
+          }
+        />
         {/* <Button onClick={() => router.toPanel(PanelTypes.EVENTS_ABOUT)}>
           Knopka
         </Button> */}
-        <div className="events">
-          <EventCard title="Мероприятие 1" itemCount={24} />
-          <EventCard title="Мероприятие 1" itemCount={24} />
-          <EventCard title="Мероприятие 1" itemCount={24} />
-          <EventCard title="Мероприятие 1" itemCount={24} />
-          <EventCard title="Мероприятие 1" itemCount={24} />
+        <div className="events__container">
+          {eventsExample
+            .filter((event) =>
+              event.title.toLowerCase().includes(search.toLowerCase())
+            )
+            .map((event) => (
+              <EventCard
+                key={event.id}
+                title={event.title}
+                itemCount={event.itemCount}
+                onClick={() => openEventById && openEventById(event.id)}
+              />
+            ))}
         </div>
-      </Div>
+      </div>
     </>
   );
 };

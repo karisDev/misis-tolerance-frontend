@@ -1,6 +1,12 @@
 .events {
+  padding: 10px;
+  .vkuiSearch {
+    margin: -7px -7px 4px -7px;
+  }
+}
+.events__container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   grid-gap: 1rem;
   padding: 0 10px;
 }

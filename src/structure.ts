@@ -4,14 +4,14 @@ import { IStructure } from "react-router-vkminiapps";
 export enum ViewTypes {
   EVENTS = "EVENTS",
   SETTINGS = "SETTINGS",
-  TICKETS = "TICKETS",
+  PROFILE = "PROFILE",
 }
 
 export enum PanelTypes {
   EVENTS_HOME = "EVENTS_HOME",
   EVENTS_ABOUT = "EVENTS_ABOUT",
   SETTINGS = "SETTINGS",
-  TICKETS_HOME = "TICKETS",
+  PROFILE_HOME = "PROFILE_HOME",
 }
 
 const structure: IStructure = [
@@ -40,11 +40,11 @@ const structure: IStructure = [
     ],
   },
   {
-    id: ViewTypes.TICKETS,
+    id: ViewTypes.PROFILE,
     hash: "tickets",
     panels: [
       {
-        id: PanelTypes.TICKETS_HOME,
+        id: PanelTypes.PROFILE_HOME,
         hash: "/home",
       },
     ],
