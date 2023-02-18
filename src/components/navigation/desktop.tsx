@@ -1,3 +1,5 @@
+// Данный компонент не используется
+
 import { Icon28NewsfeedOutline, Icon28ServicesOutline } from "@vkontakte/icons";
 import { SplitCol, Panel, PanelHeader, Group, Cell } from "@vkontakte/vkui";
 import { withRouter } from "react-router-vkminiapps";

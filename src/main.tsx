@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import bridge from "@vkontakte/vk-bridge";
 import store from "./store";
 import WalletAdapterContext from "./components/solana/WalletAdapter";
+import "./styles/index.scss";
 
 bridge.send("VKWebAppInit");
 

@@ -1,6 +1,21 @@
-import { Icon28QrCodeOutline } from "@vkontakte/icons";
-import { Button, Group, PanelHeader, PanelHeaderButton } from "@vkontakte/vkui";
+import {
+  Icon20FilterOutline,
+  Icon24Filter,
+  Icon28QrCodeOutline,
+  Icon28SettingsOutline,
+} from "@vkontakte/icons";
+import {
+  Button,
+  Div,
+  Group,
+  IconButton,
+  PanelHeader,
+  PanelHeaderButton,
+  Search,
+} from "@vkontakte/vkui";
+import { ChangeEvent, useState } from "react";
 import { withRouter } from "react-router-vkminiapps";
+import EventCard from "../../components/cards/EventCard";
 import { PanelTypes } from "../../structure";
 
 const EventsPanelHome = ({
@@ -10,6 +25,13 @@ const EventsPanelHome = ({
   router: any;
   OnScanQRClick: () => void;
 }) => {
+  const [search, setSearch] = useState("");
+
+  const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.currentTarget) {
+      setSearch(e.currentTarget.value);
+    }
+  };
   return (
     <>
       <PanelHeader
@@ -19,13 +41,31 @@ const EventsPanelHome = ({
           </PanelHeaderButton>
         }
       >
-        Главнаяf
+        Мероприятия
       </PanelHeader>
-      <Group>
-        <Button onClick={() => router.toPanel(PanelTypes.EVENTS_ABOUT)}>
+      <Div>
+        <div style={{ display: "flex" }}>
+          <Search
+            value={search}
+            onChange={onSearchChange}
+            after={
+              <IconButton>
+                <Icon20FilterOutline />
+              </IconButton>
+            }
+          />
+        </div>
+        {/* <Button onClick={() => router.toPanel(PanelTypes.EVENTS_ABOUT)}>
           Knopka
-        </Button>
-      </Group>
+        </Button> */}
+        <div className="events">
+          <EventCard title="Мероприятие 1" itemCount={24} />
+          <EventCard title="Мероприятие 1" itemCount={24} />
+          <EventCard title="Мероприятие 1" itemCount={24} />
+          <EventCard title="Мероприятие 1" itemCount={24} />
+          <EventCard title="Мероприятие 1" itemCount={24} />
+        </div>
+      </Div>
     </>
   );
 };

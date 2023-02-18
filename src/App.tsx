@@ -17,6 +17,7 @@ import {
   Tabbar,
   TabbarItem,
   View,
+  WebviewType,
 } from "@vkontakte/vkui";
 import {
   Icon28NewsfeedOutline,
@@ -35,7 +36,7 @@ import BackPlayground from "./components/solana/BackPlayground";
 import "@solana/wallet-adapter-react-ui/styles.css";
 
 // вместо HOC witRouter для функциональных компонентов можно использовать хуки
-// https://dev.vk.com/bridge/VKWebAppStorageSet сделать авторизацию по токену 
+// https://dev.vk.com/bridge/VKWebAppStorageSet сделать авторизацию по токену
 // const { activeView, activePanel } = useRouterSelector();
 // const { toView, toPanel, toBack } = useRouterActions();
 const App = ({ router }: { viewWidth: number; router: any }) => {
