@@ -1,6 +1,7 @@
 import { Icon20FilterOutline, Icon28QrCodeOutline } from "@vkontakte/icons";
 import {
   Button,
+  Div,
   Group,
   IconButton,
   PanelHeader,
@@ -50,7 +51,7 @@ const EventsPanelAbout = ({ router }: { router: any }) => {
       </PanelHeader>
       {event ? (
         <Group className="eventAbout">
-          <div className="eventAbout__header">
+          <Div className="eventAbout__header">
             <img
               className="eventAbout__img"
               src={
@@ -64,16 +65,18 @@ const EventsPanelAbout = ({ router }: { router: any }) => {
               {event.dateString}, “{event.place}“
             </p>
             <p className="eventAbout__description">{event.description}</p>
-          </div>
-          <Search
-            value={search}
-            onChange={onSearchChange}
-            after={
-              <IconButton>
-                <Icon20FilterOutline />
-              </IconButton>
-            }
-          />
+          </Div>
+          <Div>
+            <Search
+              value={search}
+              onChange={onSearchChange}
+              after={
+                <IconButton>
+                  <Icon20FilterOutline />
+                </IconButton>
+              }
+            />
+          </Div>
         </Group>
       ) : (
         <ScreenSpinner />

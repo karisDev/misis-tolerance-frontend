@@ -21,8 +21,11 @@ import { set } from "./store";
 import EventsPanelHome from "./panels/events/home";
 import EventsPanelAbout from "./panels/events/about";
 import ProfilePanelHome from "./panels/profile/home";
+import WalletPanelHome from "./panels/wallet/home";
+
 import BackPlayground from "./components/solana/BackPlayground";
 import "@solana/wallet-adapter-react-ui/styles.css";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 // вместо HOC witRouter для функциональных компонентов можно использовать хуки
 // https://dev.vk.com/bridge/VKWebAppStorageSet сделать авторизацию по токену
@@ -31,6 +34,8 @@ import "@solana/wallet-adapter-react-ui/styles.css";
 const App = ({ router }: { viewWidth: number; router: any }) => {
   const mainStorage = useSelector((state: any) => state.main);
   const dispatch = useDispatch();
+  // const { publicKey } = useWallet();
+  const publicKey = true;
 
   const OnScanQRClick = () => {
     console.log("hello");
@@ -89,6 +94,14 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
     console.log(mainStorage);
   }, [mainStorage]);
 
+  useEffect(() => {
+    if (!publicKey) {
+      setTimeout(() => {
+        router.toView(ViewTypes.WALLET);
+      }, 100);
+    }
+  }, [publicKey]);
+
   return (
     <ConfigProvider>
       <AppRoot>
@@ -100,7 +113,7 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
             <SplitCol>
               <Epic
                 activeStory={router.activeView}
-                tabbar={<MobileNavigation />}
+                tabbar={publicKey && <MobileNavigation />}
               >
                 <View id={ViewTypes.EVENTS} activePanel={router.activePanel}>
                   <Panel id={PanelTypes.EVENTS_HOME}>
@@ -121,6 +134,20 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
                 <View id={ViewTypes.PROFILE} activePanel={router.activePanel}>
                   <Panel id={PanelTypes.PROFILE_HOME}>
                     <ProfilePanelHome />
+                  </Panel>
+                </View>
+                <View id={ViewTypes.WALLET} activePanel={router.activePanel}>
+                  <Panel
+                    style={{
+                      height: "100vh",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                    id={PanelTypes.WALLET_HOME}
+                  >
+                    <WalletPanelHome />
                   </Panel>
                 </View>
               </Epic>

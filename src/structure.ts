@@ -5,6 +5,7 @@ export enum ViewTypes {
   EVENTS = "EVENTS",
   SETTINGS = "SETTINGS",
   PROFILE = "PROFILE",
+  WALLET = "WALLET",
 }
 
 export enum PanelTypes {
@@ -12,6 +13,7 @@ export enum PanelTypes {
   EVENTS_ABOUT = "EVENTS_ABOUT",
   SETTINGS = "SETTINGS",
   PROFILE_HOME = "PROFILE_HOME",
+  WALLET_HOME = "WALLET_HOME",
 }
 
 const structure: IStructure = [
@@ -41,10 +43,20 @@ const structure: IStructure = [
   },
   {
     id: ViewTypes.PROFILE,
-    hash: "tickets",
+    hash: "profile",
     panels: [
       {
         id: PanelTypes.PROFILE_HOME,
+        hash: "/home",
+      },
+    ],
+  },
+  {
+    id: ViewTypes.WALLET,
+    hash: "wallet",
+    panels: [
+      {
+        id: PanelTypes.WALLET_HOME,
         hash: "/home",
       },
     ],
