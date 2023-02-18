@@ -16,8 +16,13 @@
         font-size: 14px;
       }
     }
-    .profileHome__createEventBtn {
-      margin: 16px;
-    }
+  }
+  .profileHome__createEvent {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .profileHome__floatingButton {
+    position: absolute;
   }
 }

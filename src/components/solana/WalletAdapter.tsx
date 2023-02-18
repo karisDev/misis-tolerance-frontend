@@ -3,10 +3,7 @@ import {
   ConnectionProvider,
   WalletProvider,
 } from "@solana/wallet-adapter-react";
-import {
-  WalletModalProvider,
-  WalletMultiButton,
-} from "@solana/wallet-adapter-react-ui";
+import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import {
   UnsafeBurnerWalletAdapter,
   SolflareWalletAdapter,
@@ -48,14 +45,6 @@ const WalletAdapterContext: FC<{ children: ReactNode }> = ({ children }) => {
         <WalletModalProvider>{children}</WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>
-  );
-};
-
-const Content: FC = () => {
-  return (
-    <div className="App">
-      <WalletMultiButton />
-    </div>
   );
 };
 

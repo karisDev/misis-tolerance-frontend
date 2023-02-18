@@ -117,7 +117,10 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
               >
                 <View id={ViewTypes.EVENTS} activePanel={router.activePanel}>
                   <Panel id={PanelTypes.EVENTS_HOME}>
-                    <EventsPanelHome onOpenEventById={OnOpenEventById} />
+                    <EventsPanelHome
+                      onScanQRClick={OnScanQRClick}
+                      onOpenEventById={OnOpenEventById}
+                    />
                   </Panel>
                   <Panel id={PanelTypes.EVENTS_ABOUT}>
                     <EventsPanelAbout />

@@ -18,6 +18,7 @@ import { PanelTypes } from "../../structure";
 const ProfilePanelHome = ({ router }: { router: any }) => {
   const mainStorage = useSelector((state: any) => state.main);
   const [selectedTab, setSelectedTab] = useState<"all" | "fav">("all");
+  const [devMode, setDevMode] = useState(false);
 
   return (
     <>
@@ -39,9 +40,14 @@ const ProfilePanelHome = ({ router }: { router: any }) => {
           </Div>
         )}
         <Div className="profileHome__createEvent">
-          <Button size="l" stretched>
-            Перейти к созданию
+          <Button size="l" onClick={() => setDevMode(!devMode)}>
+            {devMode ? "Выключить DevMode" : "Включить DevMode"}
           </Button>
+          {devMode && (
+            <Button mode="outline" size="l">
+              Создать мероприятие
+            </Button>
+          )}
         </Div>
         <Div>
           <Tabs>

@@ -50,9 +50,11 @@ const eventsExample: IEvent[] = [
 const EventsPanelHome = ({
   router,
   onOpenEventById,
+  onScanQRClick,
 }: {
   router: any;
   onOpenEventById?: (id: number) => void;
+  onScanQRClick?: () => void;
 }) => {
   const [search, setSearch] = useState("");
 
@@ -66,7 +68,7 @@ const EventsPanelHome = ({
     <>
       <PanelHeader
         before={
-          <PanelHeaderButton>
+          <PanelHeaderButton onClick={() => onScanQRClick && onScanQRClick()}>
             <Icon28QrCodeOutline />
           </PanelHeaderButton>
         }
