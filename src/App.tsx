@@ -35,6 +35,7 @@ import BackPlayground from "./components/solana/BackPlayground";
 import "@solana/wallet-adapter-react-ui/styles.css";
 
 // вместо HOC witRouter для функциональных компонентов можно использовать хуки
+// https://dev.vk.com/bridge/VKWebAppStorageSet сделать авторизацию по токену 
 // const { activeView, activePanel } = useRouterSelector();
 // const { toView, toPanel, toBack } = useRouterActions();
 const App = ({ router }: { viewWidth: number; router: any }) => {
@@ -42,8 +43,20 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
   const dispatch = useDispatch();
 
   const OnScanQRClick = () => {
+    console.log("hello");
     // Sending method
-    bridge.send("VKWebAppOpenCodeReader", {});
+    bridge
+      .send("VKWebAppOpenCodeReader")
+      .then((data) => {
+        if (data.code_data) {
+          // Результат сканирования получен
+          console.log(data.code_data);
+        }
+      })
+      .catch((error) => {
+        // Ошибка
+        console.log(error);
+      });
   };
 
   useEffect(() => {
@@ -57,6 +70,7 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
       if (type === "VKWebAppOpenCodeReaderResult") {
         // Reading result of the Code Reader
         console.log(data.code_data);
+        // wr
       }
 
       if (type === "VKWebAppOpenCodeReaderFailed") {
@@ -95,7 +109,7 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
               >
                 <View id={ViewTypes.EVENTS} activePanel={router.activePanel}>
                   <Panel id={PanelTypes.EVENTS_HOME}>
-                    <EventsPanelHome OnScanQR={OnScanQRClick} />
+                    <EventsPanelHome OnScanQRClick={OnScanQRClick} />
                   </Panel>
                   <Panel id={PanelTypes.EVENTS_ABOUT}>
                     <EventsPanelAbout />

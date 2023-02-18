@@ -7,7 +7,11 @@ import {
   WalletModalProvider,
   WalletMultiButton,
 } from "@solana/wallet-adapter-react-ui";
-import { UnsafeBurnerWalletAdapter } from "@solana/wallet-adapter-wallets";
+import {
+  UnsafeBurnerWalletAdapter,
+  PhantomWalletAdapter,
+  SolflareWalletAdapter,
+} from "@solana/wallet-adapter-wallets";
 import { clusterApiUrl } from "@solana/web3.js";
 import { FC, ReactNode, useMemo } from "react";
 
@@ -33,6 +37,8 @@ const WalletAdapterContext: FC<{ children: ReactNode }> = ({ children }) => {
        * in the npm package `@solana/wallet-adapter-wallets`.
        */
       new UnsafeBurnerWalletAdapter(),
+      new SolflareWalletAdapter({ network }),
+      new PhantomWalletAdapter({ network }),
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [network]
