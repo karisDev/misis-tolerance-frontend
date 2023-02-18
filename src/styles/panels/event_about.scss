@@ -1,0 +1,31 @@
+.eventAbout {
+  padding: 16px;
+  .eventAbout__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    * {
+      margin: 0;
+      text-align: center;
+    }
+    .eventAbout__title {
+      margin-top: 16px;
+      font-size: 20px;
+    }
+    .eventAbout__info {
+      margin-top: 4px;
+      @extend %text-accent;
+    }
+    .eventAbout__description {
+      margin-top: 4px;
+    }
+  }
+  .vkuiSearch {
+    padding: 0 8px;
+    margin: 16px -7px 4px -7px;
+  }
+  .eventAbout__img {
+    @extend %image-fit;
+    max-width: 128px;
+  }
+}

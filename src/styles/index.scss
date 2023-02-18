@@ -1,2 +1,18 @@
+%image-fit {
+  aspect-ratio: 1/1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+%text-accent {
+  color: var(--vkui--color_text_accent);
+  font-weight: 500;
+}
+
 @import "panels/events";
+@import "panels/event_about";
 @import "ui/cards";

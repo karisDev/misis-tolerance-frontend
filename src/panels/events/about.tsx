@@ -1,42 +1,82 @@
-import { Icon28QrCodeOutline } from "@vkontakte/icons";
+import { Icon20FilterOutline, Icon28QrCodeOutline } from "@vkontakte/icons";
 import {
   Button,
   Group,
+  IconButton,
   PanelHeader,
   PanelHeaderBack,
   PanelHeaderButton,
+  ScreenSpinner,
+  Search,
 } from "@vkontakte/vkui";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { withRouter } from "react-router-vkminiapps";
 import IEvent from "src/interfaces/IEvent";
 import { PanelTypes } from "../../structure";
 
 const EventsPanelAbout = ({ router }: { router: any }) => {
+  const [search, setSearch] = useState("");
   const mainStorage = useSelector((state: any) => state.main);
   const [event, setEvent] = useState<IEvent | null>(null);
+
+  const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.currentTarget) {
+      setSearch(e.currentTarget.value);
+    }
+  };
+
   useEffect(() => {
     if (mainStorage.aboutPanelEventId) {
       const data = {
         id: 1,
         itemCount: 5,
         name: "Концерт ”Максим”",
+        description:
+          "В пятницу, 17 июня, певица МакSим дала первый после выхода из комы сольный популярный концерт.",
+        dateString: "28 апреля · 18:00",
+        place: "Олимпийский",
       } as IEvent;
       setTimeout(() => {
         setEvent(data);
-      }, 1000);
+      }, 100);
     }
   }, [mainStorage.aboutPanelEventId]);
 
   return (
     <>
       <PanelHeader before={<PanelHeaderBack onClick={router.toBack} />}>
-        О нас
+        {event && event.name}
       </PanelHeader>
       {event ? (
-        <div className="eventAbout">{event.name}</div>
+        <div className="eventAbout">
+          <div className="eventAbout__header">
+            <img
+              className="eventAbout__img"
+              src={
+                event.imgSrc ? event.imgSrc : "https://picsum.photos/200/200"
+              }
+              alt="event"
+            />
+            <h2 className="eventAbout__title">{event.name}</h2>
+            {/* h3 default size in pixels:  */}
+            <p className="eventAbout__info">
+              {event.dateString}, “{event.place}“
+            </p>
+            <p className="eventAbout__description">{event.description}</p>
+          </div>
+          <Search
+            value={search}
+            onChange={onSearchChange}
+            after={
+              <IconButton>
+                <Icon20FilterOutline />
+              </IconButton>
+            }
+          />
+        </div>
       ) : (
-        <h1>Загрузка</h1>
+        <ScreenSpinner />
       )}
     </>
   );
