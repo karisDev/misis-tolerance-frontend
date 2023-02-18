@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { set } from "./store";
 import EventsPanelHome from "./panels/events/home";
 import EventsPanelAbout from "./panels/events/about";
+import ProfilePanelHome from "./panels/profile/home";
 import BackPlayground from "./components/solana/BackPlayground";
 import "@solana/wallet-adapter-react-ui/styles.css";
 
@@ -115,6 +116,11 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
                     <Group>
                       <BackPlayground />
                     </Group>
+                  </Panel>
+                </View>
+                <View id={ViewTypes.PROFILE} activePanel={router.activePanel}>
+                  <Panel id={PanelTypes.PROFILE_HOME}>
+                    <ProfilePanelHome />
                   </Panel>
                 </View>
               </Epic>

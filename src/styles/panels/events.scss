@@ -1,15 +1,13 @@
 .events {
-  padding: 4px;
-  margin-top: 6px;
   .vkuiSearch {
     margin: -7px -7px 4px -7px;
   }
 }
 .events__container {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   overflow: hidden;
   overflow-y: auto;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  grid-gap: 1rem;
+  gap: 1rem;
   padding: 0 10px;
 }

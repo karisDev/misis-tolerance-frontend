@@ -28,8 +28,8 @@ const MobileNavigation = ({ router }: { router: any }) => {
       </TabbarItem>
       <TabbarItem
         aria-label="Профиль"
-        onClick={() => router.toView(ViewTypes.SETTINGS)}
-        selected={router.activeView === ViewTypes.SETTINGS}
+        onClick={() => router.toView(ViewTypes.PROFILE)}
+        selected={router.activeView === ViewTypes.PROFILE}
         text="Профиль"
       >
         <Icon28Profile />

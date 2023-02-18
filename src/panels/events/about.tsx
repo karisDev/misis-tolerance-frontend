@@ -49,7 +49,7 @@ const EventsPanelAbout = ({ router }: { router: any }) => {
         {event && event.name}
       </PanelHeader>
       {event ? (
-        <div className="eventAbout">
+        <Group className="eventAbout">
           <div className="eventAbout__header">
             <img
               className="eventAbout__img"
@@ -74,7 +74,7 @@ const EventsPanelAbout = ({ router }: { router: any }) => {
               </IconButton>
             }
           />
-        </div>
+        </Group>
       ) : (
         <ScreenSpinner />
       )}

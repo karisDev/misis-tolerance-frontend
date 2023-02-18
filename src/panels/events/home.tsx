@@ -35,6 +35,16 @@ const eventsExample: IEvent[] = [
     itemCount: 24,
     id: 3,
   },
+  {
+    name: "Концерт “Кирилл”",
+    itemCount: 24,
+    id: 4,
+  },
+  {
+    name: "Концерт “Олег”",
+    itemCount: 24,
+    id: 5,
+  },
 ];
 
 const EventsPanelHome = ({
@@ -64,7 +74,7 @@ const EventsPanelHome = ({
       >
         Мероприятия
       </PanelHeader>
-      <div className="events">
+      <Group className="events">
         <Search
           value={search}
           onChange={onSearchChange}
@@ -77,7 +87,7 @@ const EventsPanelHome = ({
         {/* <Button onClick={() => router.toPanel(PanelTypes.EVENTS_ABOUT)}>
           Knopka
         </Button> */}
-        <div className="events__container">
+        <Div className="events__container">
           {eventsExample
             .filter((event) =>
               event.name.toLowerCase().includes(search.toLowerCase())
@@ -89,8 +99,8 @@ const EventsPanelHome = ({
                 onClick={() => onOpenEventById && onOpenEventById(event.id)}
               />
             ))}
-        </div>
-      </div>
+        </Div>
+      </Group>
     </>
   );
 };
