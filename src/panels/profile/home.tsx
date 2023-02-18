@@ -44,7 +44,11 @@ const ProfilePanelHome = ({ router }: { router: any }) => {
             {devMode ? "Выключить DevMode" : "Включить DevMode"}
           </Button>
           {devMode && (
-            <Button mode="outline" size="l">
+            <Button
+              mode="outline"
+              size="l"
+              onClick={() => router.toPanel(PanelTypes.PROFILE_NEW_EVENT)}
+            >
               Создать мероприятие
             </Button>
           )}

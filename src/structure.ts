@@ -13,6 +13,7 @@ export enum PanelTypes {
   EVENTS_ABOUT = "EVENTS_ABOUT",
   SETTINGS = "SETTINGS",
   PROFILE_HOME = "PROFILE_HOME",
+  PROFILE_NEW_EVENT = "PROFILE_NEW_EVENT",
   WALLET_HOME = "WALLET_HOME",
 }
 
@@ -48,6 +49,10 @@ const structure: IStructure = [
       {
         id: PanelTypes.PROFILE_HOME,
         hash: "/home",
+      },
+      {
+        id: PanelTypes.PROFILE_NEW_EVENT,
+        hash: "/new_event",
       },
     ],
   },

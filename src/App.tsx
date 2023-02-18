@@ -21,6 +21,7 @@ import { set } from "./store";
 import EventsPanelHome from "./panels/events/home";
 import EventsPanelAbout from "./panels/events/about";
 import ProfilePanelHome from "./panels/profile/home";
+import ProfilePanelNewEvent from "./panels/profile/new_event";
 import WalletPanelHome from "./panels/wallet/home";
 
 import BackPlayground from "./components/solana/BackPlayground";
@@ -34,8 +35,8 @@ import { useWallet } from "@solana/wallet-adapter-react";
 const App = ({ router }: { viewWidth: number; router: any }) => {
   const mainStorage = useSelector((state: any) => state.main);
   const dispatch = useDispatch();
-  // const { publicKey } = useWallet();
-  const publicKey = true;
+  // const publicKey = true;
+  const { publicKey } = useWallet();
 
   const OnScanQRClick = () => {
     console.log("hello");
@@ -99,6 +100,8 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
       setTimeout(() => {
         router.toView(ViewTypes.WALLET);
       }, 100);
+    } else {
+      router.toView(ViewTypes.EVENTS);
     }
   }, [publicKey]);
 
@@ -137,6 +140,9 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
                 <View id={ViewTypes.PROFILE} activePanel={router.activePanel}>
                   <Panel id={PanelTypes.PROFILE_HOME}>
                     <ProfilePanelHome />
+                  </Panel>
+                  <Panel id={PanelTypes.PROFILE_NEW_EVENT}>
+                    <ProfilePanelNewEvent />
                   </Panel>
                 </View>
                 <View id={ViewTypes.WALLET} activePanel={router.activePanel}>
