@@ -1,0 +1,23 @@
+.profileHome {
+  display: flex;
+  flex-direction: column;
+  .profileHome__user {
+    display: flex;
+    gap: 12px;
+    * {
+      margin: 0;
+    }
+    .profileHome__user_data {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      .profileHome__user_data-wallet {
+        @extend %text-accent;
+        font-size: 14px;
+      }
+    }
+    .profileHome__createEventBtn {
+      margin: 16px;
+    }
+  }
+}
