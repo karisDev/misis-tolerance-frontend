@@ -55,6 +55,7 @@ const EventsPanelHome = ({
   return (
     <>
       <PanelHeader
+        className="helper_hideSpacing"
         before={
           <PanelHeaderButton>
             <Icon28QrCodeOutline />
