@@ -1,18 +1,13 @@
 import { FC } from "react";
+import IEvent from "../../interfaces/IEvent";
 
 interface EventCardProps {
-  title: string;
+  event: IEvent;
   imgSrc?: string;
-  itemCount: number;
   onClick?: () => void;
 }
 
-const EventCard: FC<EventCardProps> = ({
-  title,
-  imgSrc,
-  itemCount,
-  onClick,
-}) => {
+const EventCard: FC<EventCardProps> = ({ event, imgSrc, onClick }) => {
   return (
     <div className="eventCard" onClick={onClick}>
       <img
@@ -20,8 +15,8 @@ const EventCard: FC<EventCardProps> = ({
         src={imgSrc ? imgSrc : "https://picsum.photos/200/200"}
         alt="event"
       />
-      <h4 className="eventCard__title">{title}</h4>
-      <p className="eventCard__itemCount">{itemCount} предмета</p>
+      <h4 className="eventCard__title">{event.name}</h4>
+      <p className="eventCard__itemCount">{event.itemCount} предмета</p>
     </div>
   );
 };

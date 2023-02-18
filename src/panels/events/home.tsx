@@ -15,22 +15,23 @@ import {
 } from "@vkontakte/vkui";
 import { ChangeEvent, FC, useState } from "react";
 import { withRouter } from "react-router-vkminiapps";
+import IEvent from "src/interfaces/IEvent";
 import EventCard from "../../components/cards/EventCard";
 import { PanelTypes } from "../../structure";
 
-const eventsExample = [
+const eventsExample: IEvent[] = [
   {
-    title: "Концерт “Максим”",
+    name: "Концерт “Максим”",
     itemCount: 24,
     id: 1,
   },
   {
-    title: "Концерт “Кирилл”",
+    name: "Концерт “Кирилл”",
     itemCount: 24,
     id: 2,
   },
   {
-    title: "Концерт “Олег”",
+    name: "Концерт “Олег”",
     itemCount: 24,
     id: 3,
   },
@@ -38,10 +39,10 @@ const eventsExample = [
 
 const EventsPanelHome = ({
   router,
-  openEventById,
+  onOpenEventById,
 }: {
   router: any;
-  openEventById?: (id: number) => void;
+  onOpenEventById?: (id: number) => void;
 }) => {
   const [search, setSearch] = useState("");
 
@@ -78,14 +79,13 @@ const EventsPanelHome = ({
         <div className="events__container">
           {eventsExample
             .filter((event) =>
-              event.title.toLowerCase().includes(search.toLowerCase())
+              event.name.toLowerCase().includes(search.toLowerCase())
             )
             .map((event) => (
               <EventCard
                 key={event.id}
-                title={event.title}
-                itemCount={event.itemCount}
-                onClick={() => openEventById && openEventById(event.id)}
+                event={event}
+                onClick={() => onOpenEventById && onOpenEventById(event.id)}
               />
             ))}
         </div>

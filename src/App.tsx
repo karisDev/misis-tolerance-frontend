@@ -3,31 +3,19 @@ import { ViewTypes, PanelTypes } from "./structure";
 import {
   AdaptivityProvider,
   AppRoot,
-  Button,
   ConfigProvider,
   Epic,
   Group,
   Panel,
   PanelHeader,
-  PanelHeaderBack,
-  PanelHeaderButton,
-  Platform,
   SplitCol,
   SplitLayout,
-  Tabbar,
-  TabbarItem,
   View,
-  WebviewType,
 } from "@vkontakte/vkui";
-import {
-  Icon28NewsfeedOutline,
-  Icon28QrCodeOutline,
-  Icon28ServicesOutline,
-} from "@vkontakte/icons";
 import ModalsRoot from "./components/modals/ModalsRoot";
 import MobileNavigation from "./components/navigation/mobile";
 import bridge from "@vkontakte/vk-bridge";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { set } from "./store";
 import EventsPanelHome from "./panels/events/home";
@@ -58,6 +46,11 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
         // Ошибка
         console.log(error);
       });
+  };
+
+  const OnOpenEventById = (id: number) => {
+    dispatch(set({ aboutPanelEventId: id }));
+    router.toPanel(PanelTypes.EVENTS_ABOUT);
   };
 
   useEffect(() => {
@@ -110,7 +103,7 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
               >
                 <View id={ViewTypes.EVENTS} activePanel={router.activePanel}>
                   <Panel id={PanelTypes.EVENTS_HOME}>
-                    <EventsPanelHome OnScanQRClick={OnScanQRClick} />
+                    <EventsPanelHome onOpenEventById={OnOpenEventById} />
                   </Panel>
                   <Panel id={PanelTypes.EVENTS_ABOUT}>
                     <EventsPanelAbout />
