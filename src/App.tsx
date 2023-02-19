@@ -138,7 +138,7 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
             style={{ justifyContent: "center" }}
             modal={<ModalsRoot />}
           >
-            {platform == "vkcom" && <DesktopNavigation />}
+            {platform == "vkcom" && publicKey && <DesktopNavigation />}
             <SplitCol>
               <Epic
                 activeStory={router.activeView}

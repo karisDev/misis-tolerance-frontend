@@ -11,6 +11,7 @@ import {
   IconButton,
   PanelHeader,
   PanelHeaderButton,
+  ScreenSpinner,
   Search,
 } from "@vkontakte/vkui";
 import { ChangeEvent, FC, useEffect, useState } from "react";
@@ -20,34 +21,6 @@ import IEvent from "src/interfaces/IEvent";
 import { set } from "../../store";
 import EventCard from "../../components/cards/EventCard";
 import { PanelTypes } from "../../structure";
-
-const eventsExample: IEvent[] = [
-  {
-    name: "Концерт “Максим”",
-    itemCount: 24,
-    id: 1,
-  },
-  {
-    name: "Концерт “Кирилл”",
-    itemCount: 24,
-    id: 2,
-  },
-  {
-    name: "Концерт “Олег”",
-    itemCount: 24,
-    id: 3,
-  },
-  {
-    name: "Концерт “Кирилл”",
-    itemCount: 24,
-    id: 4,
-  },
-  {
-    name: "Концерт “Олег”",
-    itemCount: 24,
-    id: 5,
-  },
-];
 
 const EventsPanelHome = ({
   router,
@@ -59,6 +32,7 @@ const EventsPanelHome = ({
   const mainStorage = useSelector((state: any) => state.main);
   const [search, setSearch] = useState("");
   const [events, setEvents] = useState<any>([]);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -74,6 +48,7 @@ const EventsPanelHome = ({
 
   useEffect(() => {
     const getEvents = async () => {
+      setLoading(true);
       const response = await fetch("https://vknft.seizure.icu/get/events", {
         method: "GET",
         headers: {
@@ -91,6 +66,7 @@ const EventsPanelHome = ({
         }));
         setEvents(eventObjects);
       }
+      setLoading(false);
     };
     getEvents();
   }, [mainStorage.accountToken]);
@@ -133,8 +109,10 @@ const EventsPanelHome = ({
                 onClick={() => onOpenEventById(event.id)}
               />
             ))}
+          {events.length === 0 && <Div>Тут пусто :(</Div>}
         </Div>
       </Group>
+      {loading && <ScreenSpinner />}
     </>
   );
 };

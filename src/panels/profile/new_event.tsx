@@ -11,6 +11,7 @@ import {
   FormLayoutGroup,
   Button,
   File,
+  ScreenSpinner,
 } from "@vkontakte/vkui";
 import { FormEvent, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,6 +30,7 @@ const ProfilePanelNewEvent = ({ router }: { router: any }) => {
   const [error, setError] = useState("");
   const mainStorage = useSelector((state: any) => state.main);
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
   const onFileUpload = (e: any) => {
     setValuePhoto(e.target.files[0]);
@@ -89,6 +91,7 @@ const ProfilePanelNewEvent = ({ router }: { router: any }) => {
 
     setError("");
 
+    setIsLoading(true);
     // upload image
     const imageSrc = await uploadImage(valuePhoto);
 
@@ -131,6 +134,7 @@ const ProfilePanelNewEvent = ({ router }: { router: any }) => {
     console.log(result);
 
     router.toPanel(PanelTypes.PROFILE_HOME);
+    setIsLoading(false);
   };
 
   return (
@@ -214,6 +218,7 @@ const ProfilePanelNewEvent = ({ router }: { router: any }) => {
           </FormItem>
         </FormLayout>
       </Group>
+      {isLoading && <ScreenSpinner />}
     </>
   );
 };
