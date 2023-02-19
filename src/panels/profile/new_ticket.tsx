@@ -24,7 +24,7 @@ interface KeyValue {
 }
 
 const ProfilePanelNewTicket = ({ router }: { router: any }) => {
-  const mainStorage = useSelector((state: any) => state.mainStorage);
+  const mainStorage = useSelector((state: any) => state.main);
   const [indexCounter, setIndexCounter] = useState(0);
   const [valuePhoto, setValuePhoto] = useState<any>();
   const [valueName, setValueName] = useState("");
@@ -89,7 +89,6 @@ const ProfilePanelNewTicket = ({ router }: { router: any }) => {
         },
       ]);
     }
-    console.log(keyValues, indexCounter);
   }, [keyValues]);
 
   const onFileUpload = (e: any) => {
@@ -113,14 +112,24 @@ const ProfilePanelNewTicket = ({ router }: { router: any }) => {
       return;
     }
     setError("");
+
+    const keyValuesObject: any = {};
+    keyValues.forEach((item) => {
+      if (item.key && item.value) {
+        keyValuesObject[item.key] = item.value;
+      }
+    });
     // create a FormData object to send to the server
     const formData = new FormData();
     formData.append("title", valueName);
     formData.append("description", valueDescription);
     formData.append("type", valueType);
     formData.append("photo", valuePhoto);
-    formData.append("keyValues", JSON.stringify(keyValues));
+    formData.append("keyValues", keyValuesObject);
     formData.append("eventId", mainStorage.profilePanelEventId);
+
+    console.log(keyValuesObject);
+
     // send the form data to the server
     // fetch("https://example.com", {
     //   method: "POST",
@@ -222,6 +231,12 @@ const ProfilePanelNewTicket = ({ router }: { router: any }) => {
               </FormLayoutGroup>
             ))
           }
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          <Div>
+            <Button size="l" stretched type="submit">
+              Создать билет
+            </Button>
+          </Div>
         </FormLayout>
       </Group>
     </>

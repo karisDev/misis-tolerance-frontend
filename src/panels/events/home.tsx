@@ -17,7 +17,7 @@ import { ChangeEvent, FC, useState } from "react";
 import { useDispatch } from "react-redux";
 import { withRouter } from "react-router-vkminiapps";
 import IEvent from "src/interfaces/IEvent";
-import { set } from "src/store";
+import { set } from "../../store";
 import EventCard from "../../components/cards/EventCard";
 import { PanelTypes } from "../../structure";
 

@@ -14,7 +14,7 @@ import {
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { withRouter } from "react-router-vkminiapps";
-import { set } from "src/store";
+import { set } from "../../store";
 import { PanelTypes } from "../../structure";
 
 const ProfilePanelHome = ({ router }: { router: any }) => {
@@ -62,7 +62,7 @@ const ProfilePanelHome = ({ router }: { router: any }) => {
                 mode="outline"
                 size="l"
                 onClick={() => {
-                  dispatch(set({ profilePanelEventId: 0 }));
+                  dispatch(set({ profilePanelEventId: 1 }));
                   router.toPanel(PanelTypes.PROFILE_EVENT_INFO);
                 }}
               >
