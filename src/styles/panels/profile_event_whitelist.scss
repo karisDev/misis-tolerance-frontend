@@ -1,0 +1,12 @@
+.homeEventWhitelist {
+  display: flex;
+  flex-direction: column;
+  .homeEventWhitelist__header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    .homeEventWhitelist__title {
+      margin: 0;
+    }
+  }
+}

@@ -24,6 +24,7 @@ import ProfilePanelHome from "./panels/profile/home";
 import ProfilePanelNewEvent from "./panels/profile/new_event";
 import ProfilePanelNewTicket from "./panels/profile/new_ticket";
 import ProfilePanelEventInfo from "./panels/profile/event_info";
+import ProfilePanelEventWhitelist from "./panels/profile/event_whitelist";
 import WalletPanelHome from "./panels/wallet/home";
 
 import BackPlayground from "./components/solana/BackPlayground";
@@ -149,6 +150,9 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
                   </Panel>
                   <Panel id={PanelTypes.PROFILE_NEW_TICKET}>
                     <ProfilePanelNewTicket />
+                  </Panel>
+                  <Panel id={PanelTypes.PROFILE_EVENT_WHITELIST}>
+                    <ProfilePanelEventWhitelist />
                   </Panel>
                 </View>
                 <View id={ViewTypes.WALLET} activePanel={router.activePanel}>

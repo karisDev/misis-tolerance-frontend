@@ -69,7 +69,7 @@ const ProfilePanelEventInfo = ({ router }: { router: any }) => {
                 stretched
                 mode="outline"
                 onClick={() => {
-                  console.log("click");
+                  router.toPanel(PanelTypes.PROFILE_EVENT_WHITELIST);
                 }}
               >
                 White List

@@ -16,6 +16,7 @@ export enum PanelTypes {
   PROFILE_NEW_EVENT = "PROFILE_NEW_EVENT",
   PROFILE_NEW_TICKET = "PROFILE_NEW_TICKET",
   PROFILE_EVENT_INFO = "PROFILE_EVENT_INFO",
+  PROFILE_EVENT_WHITELIST = "PROFILE_EVENT_WHITELIST",
   WALLET_HOME = "WALLET_HOME",
 }
 
@@ -63,6 +64,10 @@ const structure: IStructure = [
       {
         id: PanelTypes.PROFILE_EVENT_INFO,
         hash: "/event_info",
+      },
+      {
+        id: PanelTypes.PROFILE_EVENT_WHITELIST,
+        hash: "/event_whitelist",
       },
     ],
   },
