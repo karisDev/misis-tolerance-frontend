@@ -22,6 +22,7 @@ const ProfilePanelNewEvent = ({ router }: { router: any }) => {
   const [valueTime, setValueTime] = useState("");
   const [valueDescription, setValueDescription] = useState("");
   const [valuePhoto, setValuePhoto] = useState<any>();
+  const [valueTicketsCount, setValueTicketsCount] = useState(0);
   const [error, setError] = useState("");
 
   const onFileUpload = (e: any) => {
@@ -62,6 +63,11 @@ const ProfilePanelNewEvent = ({ router }: { router: any }) => {
 
     if (!selectedDate) {
       setError("Выберите дату");
+      return;
+    }
+
+    if (valueTicketsCount < 1) {
+      setError("Количество билетов должно быть больше 0");
       return;
     }
 
@@ -143,6 +149,14 @@ const ProfilePanelNewEvent = ({ router }: { router: any }) => {
               placeholder="Олимпийский"
               required
               onChange={(e) => setValueDescription(e.target.value)}
+            />
+          </FormItem>
+          <FormItem top="Количество билетов">
+            <Input
+              name="ticketsCount"
+              placeholder="100"
+              required
+              onChange={(e) => setValueTicketsCount(parseInt(e.target.value))}
             />
           </FormItem>
           {error && <Div style={{ color: "red" }}>{error}</Div>}
