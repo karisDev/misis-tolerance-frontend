@@ -25,6 +25,10 @@ interface KeyValue {
 const ProfilePanelNewTicket = ({ router }: { router: any }) => {
   const [indexCounter, setIndexCounter] = useState(0);
   const [valuePhoto, setValuePhoto] = useState<any>();
+  const [valueName, setValueName] = useState("");
+  const [valueDescription, setValueDescription] = useState("");
+  const [valueType, setValueType] = useState("regular");
+  const [error, setError] = useState("");
   const [keyValues, setKeyValues] = useState<KeyValue[]>([
     {
       key: "",
@@ -61,7 +65,6 @@ const ProfilePanelNewTicket = ({ router }: { router: any }) => {
   };
 
   useEffect(() => {
-    // get item index
     // delete empty key-value pairs except the last one
     const updatedKeyValues = keyValues.filter(
       (item, index) => item.key || item.value || index === keyValues.length - 1
@@ -90,18 +93,60 @@ const ProfilePanelNewTicket = ({ router }: { router: any }) => {
   const onFileUpload = (e: any) => {
     setValuePhoto(e.target.files[0]);
   };
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    // validate the form
+    if (!valueName || !valueDescription || !valuePhoto) {
+      setError("Заполните все поля");
+      return;
+    }
+    setError("");
+    // create a FormData object to send to the server
+    const formData = new FormData();
+    formData.append("name", valueName);
+    formData.append("description", valueDescription);
+    formData.append("type", valueType);
+    formData.append("photo", valuePhoto);
+    formData.append("keyValues", JSON.stringify(keyValues));
+    // send the form data to the server
+    // fetch("https://example.com", {
+    //   method: "POST",
+    //   body: formData,
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log("Success:", data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error:", error);
+    //   });
+  };
+
   return (
     <>
       <PanelHeader before={<PanelHeaderBack onClick={() => router.toBack()} />}>
         Создание билета
       </PanelHeader>
       <Group>
-        <FormLayout>
+        <FormLayout onSubmit={handleSubmit}>
           <FormItem top="Название">
-            <Input name="name" placeholder="Билет №1" required />
+            <Input
+              name="name"
+              placeholder="Билет №1"
+              required
+              value={valueName}
+              onChange={(e) => setValueName(e.target.value)}
+            />
           </FormItem>
           <FormItem top="Описание">
-            <Input name="description" placeholder="Хороший билет" required />
+            <Input
+              name="description"
+              placeholder="Хороший билет"
+              required
+              value={valueDescription}
+              onChange={(e) => setValueDescription(e.target.value)}
+            />
           </FormItem>
           <FormLayoutGroup mode="horizontal">
             <FormItem top="Загрузите ваше фото">
@@ -129,6 +174,8 @@ const ProfilePanelNewTicket = ({ router }: { router: any }) => {
                   value: "vip",
                 },
               ]}
+              defaultValue="regular"
+              onChange={(e) => setValueType(String(e))}
             />
           </FormItem>
           {
