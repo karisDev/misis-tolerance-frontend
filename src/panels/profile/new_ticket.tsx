@@ -16,6 +16,7 @@ import {
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { withRouter } from "react-router-vkminiapps";
+import { ViewTypes } from "../../structure";
 
 interface KeyValue {
   key: string;
@@ -141,6 +142,7 @@ const ProfilePanelNewTicket = ({ router }: { router: any }) => {
     });
     const result = await response.json();
     console.log(result);
+    router.toView(ViewTypes.EVENTS);
 
     // send the form data to the server
     // fetch("https://example.com", {

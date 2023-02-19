@@ -23,19 +23,34 @@ const EventsPanelAbout = ({ router }: { router: any }) => {
   const mainStorage = useSelector((state: any) => state.main);
   const dispatch = useDispatch();
   const [event, setEvent] = useState<IEvent | null>(null);
-  const [tickets, setTickets] = useState([
-    {
-      id: 1,
-      name: "Билет 1",
-      imgSrc: "https://picsum.photos/200/200",
-      body: "Описание билета",
-    },
-  ]);
+  const [tickets, setTickets] = useState<any>([]);
 
   const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.currentTarget) {
       setSearch(e.currentTarget.value);
     }
+  };
+
+  const mintNft = async (ticket: any) => {
+    const response = await fetch(`https://vknft.seizure.icu/mint_nft/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + mainStorage.accountToken || "",
+      },
+      body: JSON.stringify({
+        nft_id: Number(ticket.id),
+        vk_id: Number(mainStorage.user.id),
+      }),
+    });
+    const data = await response.json();
+    console.log(data);
+    console.log(
+      JSON.stringify({
+        nft_id: ticket.id,
+        vk_id: mainStorage.user.id,
+      })
+    );
   };
 
   useEffect(() => {
@@ -64,8 +79,44 @@ const EventsPanelAbout = ({ router }: { router: any }) => {
       console.log(data);
     };
 
+    const getTickets = async () => {
+      // /get/event/nfts
+      const response = await fetch(
+        `https://vknft.seizure.icu/get/event/nfts?event_id=${mainStorage.aboutPanelEventId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + mainStorage.accountToken || "",
+          },
+        }
+      );
+      /*
+      attended
+: 
+false
+blurredImage
+: 
+""
+description
+: 
+"test"
+eventId
+: 
+1
+id
+: 
+1
+title
+: 
+"test"*/
+      const data = await response.json();
+      setTickets(data);
+    };
+
     if (mainStorage.aboutPanelEventId) {
       getEvent();
+      getTickets();
     }
   }, [mainStorage.aboutPanelEventId, mainStorage.accountToken]);
 
@@ -118,13 +169,17 @@ const EventsPanelAbout = ({ router }: { router: any }) => {
             />
           </Div>
           <Div className="eventAbout__tickets">
-            {tickets.map((ticket) => (
-              // name, body, imgSrc
+            {tickets.map((ticket: any) => (
               <GetTicketCard
                 key={ticket.id}
-                name={ticket.name}
-                body={ticket.body}
-                imgSrc={ticket.imgSrc}
+                name={ticket.title}
+                body={ticket.description}
+                imgSrc={
+                  ticket.blurredImage
+                    ? ticket.blurredImage
+                    : "https://picsum.photos/200/200"
+                }
+                onClick={() => mintNft(ticket)}
               />
             ))}
           </Div>
