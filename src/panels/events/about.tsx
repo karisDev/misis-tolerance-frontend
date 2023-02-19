@@ -15,11 +15,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { withRouter } from "react-router-vkminiapps";
 import GetTicketCard from "../../components/cards/GetTicketCard";
 import IEvent from "src/interfaces/IEvent";
-import { PanelTypes } from "../../structure";
+import { PanelTypes, ViewTypes } from "../../structure";
+import { set } from "../../store";
 
 const EventsPanelAbout = ({ router }: { router: any }) => {
   const [search, setSearch] = useState("");
   const mainStorage = useSelector((state: any) => state.main);
+  const dispatch = useDispatch();
   const [event, setEvent] = useState<IEvent | null>(null);
   const [tickets, setTickets] = useState([
     {
@@ -56,6 +58,7 @@ const EventsPanelAbout = ({ router }: { router: any }) => {
         location: data.place,
         description: data.description,
         imgSrc: data.imgSrc,
+        ownerId: data.owner_id,
       } as IEvent;
       setEvent(eventObject);
       console.log(data);
@@ -65,6 +68,14 @@ const EventsPanelAbout = ({ router }: { router: any }) => {
       getEvent();
     }
   }, [mainStorage.aboutPanelEventId, mainStorage.accountToken]);
+
+  const onEditClick = (id: number) => {
+    dispatch(set({ profilePanelEventId: id }));
+    setTimeout(() => {
+      router.toPanel(PanelTypes.PROFILE_EVENT_INFO);
+    }, 100);
+    router.toView(ViewTypes.PROFILE);
+  };
 
   return (
     <>
@@ -87,6 +98,13 @@ const EventsPanelAbout = ({ router }: { router: any }) => {
               {event.dateString}, “{event.location}“
             </p>
             <p className="eventAbout__description">{event.description}</p>
+            <Button
+              stretched
+              mode="secondary"
+              onClick={() => onEditClick(event.id)}
+            >
+              Редактировать
+            </Button>
           </Div>
           <Div>
             <Search

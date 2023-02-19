@@ -123,6 +123,25 @@ const ProfilePanelNewTicket = ({ router }: { router: any }) => {
     });
     const imgSrc = await uploadImage(valuePhoto);
 
+    const newTicket = {
+      name: valueName,
+      description: valueDescription,
+      keys: { ...keyValuesObject, type: valueType },
+      image: imgSrc,
+      eventId: mainStorage.profilePanelEventId,
+    };
+
+    const response = await fetch("https://vknft.seizure.icu/create/ticket", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${mainStorage.accountToken}`,
+      },
+      body: JSON.stringify(newTicket),
+    });
+    const result = await response.json();
+    console.log(result);
+
     // send the form data to the server
     // fetch("https://example.com", {
     //   method: "POST",
