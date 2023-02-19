@@ -92,19 +92,21 @@ const ProfilePanelNewTicket = ({ router }: { router: any }) => {
   }, [keyValues]);
 
   const onFileUpload = (e: any) => {
-    // const reader = new FileReader();
-    // reader.readAsDataURL(e.target.files[0]);
-    // reader.onload = () => {
-    //   console.log(reader.result);
-    // };
-    // reader.onerror = (error) => {
-    //   console.log("Error: ", error);
-    // };
-
     setValuePhoto(e.target.files[0]);
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const uploadImage = async (file: any) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    const response = await fetch("https://pics.seizure.icu/api/upload.php", {
+      method: "POST",
+      body: formData,
+    });
+    const result = await response.json();
+    return result.url;
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     // validate the form
     if (!valueName || !valueDescription || !valuePhoto) {
@@ -119,40 +121,7 @@ const ProfilePanelNewTicket = ({ router }: { router: any }) => {
         keyValuesObject[item.key] = item.value;
       }
     });
-    // upload valuePhoto to https://pics.seizure.icu/api/upload.php
-    // and get the link to the uploaded image
-    console.log(valuePhoto);
-    // const data = fetch("https://pics.seizure.icu/api/upload.php", {
-    //   method: "POST",
-    //   body: valuePhoto,
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log("Success:", data);
-    //     return data;
-    //   });
-    const formDataImg = new FormData();
-    formDataImg.append("file", valuePhoto);
-    const imgSrc = fetch("https://pics.seizure.icu/api/upload.php", {
-      method: "POST",
-      body: formDataImg,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-
-        // create a FormData object to send to the server
-        const formData = new FormData();
-        formData.append("title", valueName);
-        formData.append("description", valueDescription);
-        formData.append("type", valueType);
-        formData.append("keyValues", keyValuesObject);
-        formData.append("eventId", mainStorage.profilePanelEventId);
-        formData.append("imgSrc", data.url);
-
-        console.log(keyValuesObject);
-      });
-    console.log(imgSrc);
+    const imgSrc = await uploadImage(valuePhoto);
 
     // send the form data to the server
     // fetch("https://example.com", {

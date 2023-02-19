@@ -8,9 +8,9 @@ interface ImageCardProps {
   onClick?: () => void;
 }
 
-const ImageCard: FC<ImageCardProps> = ({ name, body, imgSrc, onClick }) => {
+const GetTicketCard: FC<ImageCardProps> = ({ name, body, imgSrc, onClick }) => {
   return (
-    <div className="imageCard" onClick={() => onClick && onClick()}>
+    <div className="imageCard getTicket" onClick={() => onClick && onClick()}>
       <img
         className="imageCard__img"
         src={imgSrc ? imgSrc : "https://picsum.photos/200/200"}
@@ -18,8 +18,15 @@ const ImageCard: FC<ImageCardProps> = ({ name, body, imgSrc, onClick }) => {
       />
       <h4 className="imageCard__title">{name}</h4>
       <p className="imageCard__itemCount">{body}</p>
+      <Button
+        mode="secondary"
+        className="imageCard__button"
+        onClick={() => onClick && onClick()}
+      >
+        Получить
+      </Button>
     </div>
   );
 };
 
-export default ImageCard;
+export default GetTicketCard;

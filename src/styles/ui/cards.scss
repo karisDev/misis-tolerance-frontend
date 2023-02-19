@@ -6,16 +6,26 @@
   display: flex;
   flex-direction: column;
   cursor: pointer;
-  .eventCard__img {
+  .eventCard__img,
+  .imageCard__img {
     @extend %image-fit;
   }
   .eventCard__title,
-  .eventCard__itemCount {
+  .eventCard__itemCount,
+  .imageCard__title,
+  .imageCard__itemCount {
     margin: 0;
     margin-left: 8px;
     font-weight: 600;
   }
-  .eventCard__itemCount {
+  .eventCard__itemCount,
+  .imageCard__itemCount {
     @extend %text-accent;
+  }
+  &.getTicket {
+    .imageCard__button {
+      margin: 0 8px;
+      margin-top: 6px;
+    }
   }
 }

@@ -13,7 +13,10 @@ import {
   File,
 } from "@vkontakte/vkui";
 import { FormEvent, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { withRouter } from "react-router-vkminiapps";
+import { PanelTypes } from "../../structure";
+import { set } from "../../store";
 
 const ProfilePanelNewEvent = ({ router }: { router: any }) => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
@@ -24,6 +27,8 @@ const ProfilePanelNewEvent = ({ router }: { router: any }) => {
   const [valuePhoto, setValuePhoto] = useState<any>();
   const [valueTicketsCount, setValueTicketsCount] = useState(0);
   const [error, setError] = useState("");
+  const mainStorage = useSelector((state: any) => state.main);
+  const dispatch = useDispatch();
 
   const onFileUpload = (e: any) => {
     setValuePhoto(e.target.files[0]);
@@ -93,24 +98,39 @@ const ProfilePanelNewEvent = ({ router }: { router: any }) => {
     date.setHours(parseInt(time[0]));
     date.setMinutes(parseInt(time[1]));
 
-    const formData = new FormData();
-    formData.append("title", valueName);
-    formData.append("place", valueLocation);
-    formData.append("datetime", date.getTime().toString());
-    formData.append("description", valueDescription);
-    formData.append("image", valuePhoto);
-    console.log(formData);
-    // fetch("https://api.vk.com/method/photos.getMessagesUploadServer", {
-    //   method: "POST",
-    //   body: formData,
-    // })
-    //   .then((response) => response.json())
-    //   .then((result) => {
-    //     console.log("Success:", result);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error:", error);
-    //   });
+    // const formData = new FormData();
+    // formData.append("title", valueName);
+    // formData.append("place", valueLocation);
+    // formData.append("datetime", date.getTime().toString());
+    // formData.append("description", valueDescription);
+    // formData.append("image", valuePhoto);
+    const response = await fetch("https://vknft.seizure.icu/create/event", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${mainStorage.accountToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: valueName,
+        place: valueLocation,
+        datetime: date.getTime().toString(),
+        description: valueDescription,
+        image: imageSrc,
+        owner_id: mainStorage.user.id,
+      }),
+    });
+    const result = await response.json();
+    if (result.event_id) {
+      dispatch(
+        set({
+          profilePanelEventId: result.event_id,
+        })
+      );
+      router.toPanel(PanelTypes.PROFILE_NEW_TICKET);
+    }
+    console.log(result);
+
+    router.toPanel(PanelTypes.PROFILE_HOME);
   };
 
   return (

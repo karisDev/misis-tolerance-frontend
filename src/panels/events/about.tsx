@@ -11,8 +11,9 @@ import {
   Search,
 } from "@vkontakte/vkui";
 import { ChangeEvent, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { withRouter } from "react-router-vkminiapps";
+import GetTicketCard from "../../components/cards/GetTicketCard";
 import IEvent from "src/interfaces/IEvent";
 import { PanelTypes } from "../../structure";
 
@@ -20,7 +21,14 @@ const EventsPanelAbout = ({ router }: { router: any }) => {
   const [search, setSearch] = useState("");
   const mainStorage = useSelector((state: any) => state.main);
   const [event, setEvent] = useState<IEvent | null>(null);
-  const [tickets, setTickets] = useState([]);
+  const [tickets, setTickets] = useState([
+    {
+      id: 1,
+      name: "Билет 1",
+      imgSrc: "https://picsum.photos/200/200",
+      body: "Описание билета",
+    },
+  ]);
 
   const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.currentTarget) {
@@ -50,6 +58,7 @@ const EventsPanelAbout = ({ router }: { router: any }) => {
         imgSrc: data.imgSrc,
       } as IEvent;
       setEvent(eventObject);
+      console.log(data);
     };
 
     if (mainStorage.aboutPanelEventId) {
@@ -89,6 +98,17 @@ const EventsPanelAbout = ({ router }: { router: any }) => {
                 </IconButton>
               }
             />
+          </Div>
+          <Div className="eventAbout__tickets">
+            {tickets.map((ticket) => (
+              // name, body, imgSrc
+              <GetTicketCard
+                key={ticket.id}
+                name={ticket.name}
+                body={ticket.body}
+                imgSrc={ticket.imgSrc}
+              />
+            ))}
           </Div>
         </Group>
       ) : (
