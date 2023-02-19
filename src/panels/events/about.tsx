@@ -20,6 +20,7 @@ const EventsPanelAbout = ({ router }: { router: any }) => {
   const [search, setSearch] = useState("");
   const mainStorage = useSelector((state: any) => state.main);
   const [event, setEvent] = useState<IEvent | null>(null);
+  const [tickets, setTickets] = useState([]);
 
   const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.currentTarget) {
@@ -28,21 +29,33 @@ const EventsPanelAbout = ({ router }: { router: any }) => {
   };
 
   useEffect(() => {
-    if (mainStorage.aboutPanelEventId) {
-      const data = {
-        id: 1,
-        itemCount: 5,
-        name: "Концерт ”Максим”",
-        description:
-          "В пятницу, 17 июня, певица МакSим дала первый после выхода из комы сольный популярный концерт.",
-        dateString: "28 апреля · 18:00",
-        location: "Олимпийский",
+    const getEvent = async () => {
+      const response = await fetch(
+        `https://vknft.seizure.icu/get/event?event_id=${mainStorage.aboutPanelEventId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + mainStorage.accountToken || "",
+          },
+        }
+      );
+      const data = await response.json();
+      const eventObject = {
+        name: data.title,
+        id: data.event_id,
+        dateString: data.datetime,
+        location: data.place,
+        description: data.description,
+        imgSrc: data.imgSrc,
       } as IEvent;
-      setTimeout(() => {
-        setEvent(data);
-      }, 100);
+      setEvent(eventObject);
+    };
+
+    if (mainStorage.aboutPanelEventId) {
+      getEvent();
     }
-  }, [mainStorage.aboutPanelEventId]);
+  }, [mainStorage.aboutPanelEventId, mainStorage.accountToken]);
 
   return (
     <>

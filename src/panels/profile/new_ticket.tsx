@@ -119,16 +119,40 @@ const ProfilePanelNewTicket = ({ router }: { router: any }) => {
         keyValuesObject[item.key] = item.value;
       }
     });
-    // create a FormData object to send to the server
-    const formData = new FormData();
-    formData.append("title", valueName);
-    formData.append("description", valueDescription);
-    formData.append("type", valueType);
-    formData.append("photo", valuePhoto);
-    formData.append("keyValues", keyValuesObject);
-    formData.append("eventId", mainStorage.profilePanelEventId);
+    // upload valuePhoto to https://pics.seizure.icu/api/upload.php
+    // and get the link to the uploaded image
+    console.log(valuePhoto);
+    // const data = fetch("https://pics.seizure.icu/api/upload.php", {
+    //   method: "POST",
+    //   body: valuePhoto,
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log("Success:", data);
+    //     return data;
+    //   });
+    const formDataImg = new FormData();
+    formDataImg.append("file", valuePhoto);
+    const imgSrc = fetch("https://pics.seizure.icu/api/upload.php", {
+      method: "POST",
+      body: formDataImg,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
 
-    console.log(keyValuesObject);
+        // create a FormData object to send to the server
+        const formData = new FormData();
+        formData.append("title", valueName);
+        formData.append("description", valueDescription);
+        formData.append("type", valueType);
+        formData.append("keyValues", keyValuesObject);
+        formData.append("eventId", mainStorage.profilePanelEventId);
+        formData.append("imgSrc", data.url);
+
+        console.log(keyValuesObject);
+      });
+    console.log(imgSrc);
 
     // send the form data to the server
     // fetch("https://example.com", {

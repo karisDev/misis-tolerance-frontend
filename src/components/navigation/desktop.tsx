@@ -1,7 +1,14 @@
 // Данный компонент не используется
 
-import { Icon28NewsfeedOutline, Icon28ServicesOutline } from "@vkontakte/icons";
-import { SplitCol, Panel, PanelHeader, Group, Cell } from "@vkontakte/vkui";
+import { Icon28Profile, Icon28Square4Outline } from "@vkontakte/icons";
+import {
+  SplitCol,
+  Panel,
+  PanelHeader,
+  Group,
+  Cell,
+  Div,
+} from "@vkontakte/vkui";
 import { withRouter } from "react-router-vkminiapps";
 import { ViewTypes } from "../../structure";
 
@@ -9,23 +16,27 @@ const DesktopNavigation = ({ router }: { router: any }) => {
   return (
     <SplitCol fixed width={280} maxWidth={280}>
       <Panel id="navDesktop">
-        <PanelHeader />
-        <Group>
-          <Cell
-            onClick={() => router.toView(ViewTypes.EVENTS)}
-            selected={router.activeView == ViewTypes.EVENTS}
-            before={<Icon28NewsfeedOutline />}
-          >
-            Главная
-          </Cell>
-          <Cell
-            onClick={() => router.toView(ViewTypes.SETTINGS)}
-            selected={router.activeView == ViewTypes.SETTINGS}
-            before={<Icon28ServicesOutline />}
-          >
-            Настройки
-          </Cell>
-        </Group>
+        <Div style={{ paddingTop: "0", paddingLeft: "0" }}>
+          <Group>
+            <Cell
+              className={
+                router.activeView == ViewTypes.EVENTS ? "nav-active" : ""
+              }
+              onClick={() => router.toView(ViewTypes.EVENTS)}
+              selected={router.activeView == ViewTypes.EVENTS}
+              before={<Icon28Square4Outline />}
+            >
+              Мероприятия
+            </Cell>
+            <Cell
+              onClick={() => router.toView(ViewTypes.PROFILE)}
+              selected={router.activeView == ViewTypes.PROFILE}
+              before={<Icon28Profile />}
+            >
+              Профиль
+            </Cell>
+          </Group>
+        </Div>
       </Panel>
     </SplitCol>
   );

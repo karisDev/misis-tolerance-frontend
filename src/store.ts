@@ -3,6 +3,7 @@ import { UserInfo } from "@vkontakte/vk-bridge";
 
 interface mainReducerProps {
   user?: UserInfo;
+  accountToken?: string;
   aboutPanelEventId?: number;
   profilePanelEventId?: number;
 }

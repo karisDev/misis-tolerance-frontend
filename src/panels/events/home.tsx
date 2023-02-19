@@ -13,8 +13,8 @@ import {
   PanelHeaderButton,
   Search,
 } from "@vkontakte/vkui";
-import { ChangeEvent, FC, useState } from "react";
-import { useDispatch } from "react-redux";
+import { ChangeEvent, FC, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { withRouter } from "react-router-vkminiapps";
 import IEvent from "src/interfaces/IEvent";
 import { set } from "../../store";
@@ -56,7 +56,9 @@ const EventsPanelHome = ({
   router: any;
   onScanQRClick?: () => void;
 }) => {
+  const mainStorage = useSelector((state: any) => state.main);
   const [search, setSearch] = useState("");
+  const [events, setEvents] = useState<any>([]);
   const dispatch = useDispatch();
 
   const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -69,6 +71,29 @@ const EventsPanelHome = ({
     dispatch(set({ aboutPanelEventId: id }));
     router.toPanel(PanelTypes.EVENTS_ABOUT);
   };
+
+  useEffect(() => {
+    const getEvents = async () => {
+      const response = await fetch("https://vknft.seizure.icu/get/events", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + mainStorage.accountToken || "",
+        },
+      });
+      const data = await response.json();
+
+      if (data) {
+        const eventObjects = data.map((event: any) => ({
+          name: event.title,
+          id: event.event_id,
+          itemCount: event.tickets ? event.tickets.length : 0,
+        }));
+        setEvents(eventObjects);
+      }
+    };
+    getEvents();
+  }, [mainStorage.accountToken]);
 
   return (
     <>
@@ -95,10 +120,12 @@ const EventsPanelHome = ({
           Knopka
         </Button> */}
         <Div className="events__container">
-          {eventsExample
+          {events
+            // @ts-ignore
             .filter((event) =>
               event.name.toLowerCase().includes(search.toLowerCase())
             )
+            // @ts-ignore
             .map((event) => (
               <EventCard
                 key={event.id}

@@ -10,10 +10,12 @@ import {
   PanelHeader,
   SplitCol,
   SplitLayout,
+  usePlatform,
   View,
 } from "@vkontakte/vkui";
 import ModalsRoot from "./components/modals/ModalsRoot";
 import MobileNavigation from "./components/navigation/mobile";
+import DesktopNavigation from "./components/navigation/desktop";
 import bridge from "@vkontakte/vk-bridge";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,8 +40,9 @@ import { useWallet } from "@solana/wallet-adapter-react";
 const App = ({ router }: { viewWidth: number; router: any }) => {
   const mainStorage = useSelector((state: any) => state.main);
   const dispatch = useDispatch();
-  const publicKey = true;
-  // const { publicKey } = useWallet();
+  const platform = usePlatform();
+  // const publicKey = true;
+  const { publicKey } = useWallet();
 
   const OnScanQRClick = () => {
     console.log("hello");
@@ -94,10 +97,6 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
   }, [mainStorage]);
 
   useEffect(() => {
-    console.log(localStorage.getItem("test"));
-  }, []);
-
-  useEffect(() => {
     if (!publicKey) {
       setTimeout(() => {
         router.toView(ViewTypes.WALLET);
@@ -109,6 +108,28 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
     }
   }, [publicKey]);
 
+  useEffect(() => {
+    if (publicKey && mainStorage.user) {
+      const data = fetch("https://vknft.seizure.icu/" + "auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          first_name: mainStorage.user.first_name,
+          last_name: mainStorage.user.last_name,
+          vk_id: mainStorage.user.id,
+          wallet_public_key: publicKey.toString(),
+        }),
+      }).then((res) => {
+        res
+          .json()
+          .then((data) => dispatch(set({ accountToken: data.access_token })));
+      });
+    }
+    console.log(platform);
+  }, [publicKey, mainStorage.user]);
+
   return (
     <ConfigProvider>
       <AppRoot>
@@ -117,10 +138,13 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
             style={{ justifyContent: "center" }}
             modal={<ModalsRoot />}
           >
+            {platform == "vkcom" && <DesktopNavigation />}
             <SplitCol>
               <Epic
                 activeStory={router.activeView}
-                tabbar={publicKey && <MobileNavigation />}
+                tabbar={
+                  publicKey && platform != "vkcom" && <MobileNavigation />
+                }
               >
                 <View id={ViewTypes.EVENTS} activePanel={router.activePanel}>
                   <Panel id={PanelTypes.EVENTS_HOME}>

@@ -42,7 +42,18 @@ const ProfilePanelNewEvent = ({ router }: { router: any }) => {
     setSelectedDate(new Date(year, month, day));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const uploadImage = async (file: any) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    const response = await fetch("https://pics.seizure.icu/api/upload.php", {
+      method: "POST",
+      body: formData,
+    });
+    const result = await response.json();
+    return result.url;
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!valueName || !valueLocation || !valueTime || !valueDescription) {
@@ -72,6 +83,9 @@ const ProfilePanelNewEvent = ({ router }: { router: any }) => {
     }
 
     setError("");
+
+    // upload image
+    const imageSrc = await uploadImage(valuePhoto);
 
     // combine date and time
     const date = new Date(selectedDate);
