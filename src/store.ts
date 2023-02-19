@@ -4,6 +4,7 @@ import { UserInfo } from "@vkontakte/vk-bridge";
 interface mainReducerProps {
   user?: UserInfo;
   aboutPanelEventId?: number;
+  profilePanelEventId?: number;
 }
 
 const mainReducer = createSlice({

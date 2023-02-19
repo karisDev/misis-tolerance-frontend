@@ -23,6 +23,7 @@ import EventsPanelAbout from "./panels/events/about";
 import ProfilePanelHome from "./panels/profile/home";
 import ProfilePanelNewEvent from "./panels/profile/new_event";
 import ProfilePanelNewTicket from "./panels/profile/new_ticket";
+import ProfilePanelEventInfo from "./panels/profile/event_info";
 import WalletPanelHome from "./panels/wallet/home";
 
 import BackPlayground from "./components/solana/BackPlayground";
@@ -59,6 +60,11 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
   const OnOpenEventById = (id: number) => {
     dispatch(set({ aboutPanelEventId: id }));
     router.toPanel(PanelTypes.EVENTS_ABOUT);
+  };
+
+  const OnOpenDevEventById = (id: number) => {
+    dispatch(set({ profilePanelEventId: id }));
+    router.toPanel(PanelTypes.PROFILE_EVENT_INFO);
   };
 
   useEffect(() => {
@@ -146,10 +152,13 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
                 </View>
                 <View id={ViewTypes.PROFILE} activePanel={router.activePanel}>
                   <Panel id={PanelTypes.PROFILE_HOME}>
-                    <ProfilePanelHome />
+                    <ProfilePanelHome onOpenDevEventById={OnOpenDevEventById} />
                   </Panel>
                   <Panel id={PanelTypes.PROFILE_NEW_EVENT}>
                     <ProfilePanelNewEvent />
+                  </Panel>
+                  <Panel id={PanelTypes.PROFILE_EVENT_INFO}>
+                    <ProfilePanelEventInfo />
                   </Panel>
                   <Panel id={PanelTypes.PROFILE_NEW_TICKET}>
                     <ProfilePanelNewTicket />

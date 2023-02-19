@@ -1,3 +1,4 @@
+import { useWallet } from "@solana/wallet-adapter-react";
 import { Icon28QrCodeOutline } from "@vkontakte/icons";
 import {
   Avatar,
@@ -15,10 +16,17 @@ import { useSelector } from "react-redux";
 import { withRouter } from "react-router-vkminiapps";
 import { PanelTypes } from "../../structure";
 
-const ProfilePanelHome = ({ router }: { router: any }) => {
+const ProfilePanelHome = ({
+  router,
+  onOpenDevEventById,
+}: {
+  router: any;
+  onOpenDevEventById: (id: number) => void;
+}) => {
   const mainStorage = useSelector((state: any) => state.main);
   const [selectedTab, setSelectedTab] = useState<"all" | "fav">("all");
-  const [devMode, setDevMode] = useState(false);
+  const [devMode, setDevMode] = useState(true);
+  const wallet = useWallet();
 
   return (
     <>
@@ -35,7 +43,9 @@ const ProfilePanelHome = ({ router }: { router: any }) => {
               <h4 className="profileHome__user_data-name">
                 {mainStorage.user.first_name} {mainStorage.user.last_name}
               </h4>
-              <p className="profileHome__user_data-wallet">23143t423y23</p>
+              <p className="profileHome__user_data-wallet">
+                {wallet.publicKey?.toString()}
+              </p>
             </div>
           </Div>
         )}
@@ -43,7 +53,7 @@ const ProfilePanelHome = ({ router }: { router: any }) => {
           <Button size="l" onClick={() => setDevMode(!devMode)}>
             {devMode ? "Выключить DevMode" : "Включить DevMode"}
           </Button>
-          {!devMode && (
+          {devMode && (
             <>
               <Button
                 mode="outline"
@@ -55,9 +65,9 @@ const ProfilePanelHome = ({ router }: { router: any }) => {
               <Button
                 mode="outline"
                 size="l"
-                onClick={() => router.toPanel(PanelTypes.PROFILE_NEW_TICKET)}
+                onClick={() => onOpenDevEventById(1)}
               >
-                Создать билет (временно)
+                Открыть мероприятие (временно)
               </Button>
             </>
           )}

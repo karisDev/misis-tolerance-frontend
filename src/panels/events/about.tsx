@@ -36,7 +36,7 @@ const EventsPanelAbout = ({ router }: { router: any }) => {
         description:
           "В пятницу, 17 июня, певица МакSим дала первый после выхода из комы сольный популярный концерт.",
         dateString: "28 апреля · 18:00",
-        place: "Олимпийский",
+        location: "Олимпийский",
       } as IEvent;
       setTimeout(() => {
         setEvent(data);
@@ -62,7 +62,7 @@ const EventsPanelAbout = ({ router }: { router: any }) => {
             <h2 className="eventAbout__title">{event.name}</h2>
             {/* h3 default size in pixels:  */}
             <p className="eventAbout__info">
-              {event.dateString}, “{event.place}“
+              {event.dateString}, “{event.location}“
             </p>
             <p className="eventAbout__description">{event.description}</p>
           </Div>

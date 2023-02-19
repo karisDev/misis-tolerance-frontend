@@ -91,6 +91,15 @@ const ProfilePanelNewTicket = ({ router }: { router: any }) => {
   }, [keyValues]);
 
   const onFileUpload = (e: any) => {
+    // const reader = new FileReader();
+    // reader.readAsDataURL(e.target.files[0]);
+    // reader.onload = () => {
+    //   console.log(reader.result);
+    // };
+    // reader.onerror = (error) => {
+    //   console.log("Error: ", error);
+    // };
+
     setValuePhoto(e.target.files[0]);
   };
 
@@ -160,7 +169,7 @@ const ProfilePanelNewTicket = ({ router }: { router: any }) => {
             </FormItem>
             {valuePhoto && <p style={{ margin: 0 }}>{valuePhoto.name}</p>}
           </FormLayoutGroup>
-          <FormItem top="Тип документа">
+          <FormItem top="Тип билета">
             <SegmentedControl
               size="m"
               name="type"
