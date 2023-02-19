@@ -22,6 +22,7 @@ import EventsPanelHome from "./panels/events/home";
 import EventsPanelAbout from "./panels/events/about";
 import ProfilePanelHome from "./panels/profile/home";
 import ProfilePanelNewEvent from "./panels/profile/new_event";
+import ProfilePanelNewTicket from "./panels/profile/new_ticket";
 import WalletPanelHome from "./panels/wallet/home";
 
 import BackPlayground from "./components/solana/BackPlayground";
@@ -96,6 +97,10 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
   }, [mainStorage]);
 
   useEffect(() => {
+    console.log(localStorage.getItem("test"));
+  }, []);
+
+  useEffect(() => {
     if (!publicKey) {
       setTimeout(() => {
         router.toView(ViewTypes.WALLET);
@@ -145,6 +150,9 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
                   </Panel>
                   <Panel id={PanelTypes.PROFILE_NEW_EVENT}>
                     <ProfilePanelNewEvent />
+                  </Panel>
+                  <Panel id={PanelTypes.PROFILE_NEW_TICKET}>
+                    <ProfilePanelNewTicket />
                   </Panel>
                 </View>
                 <View id={ViewTypes.WALLET} activePanel={router.activePanel}>

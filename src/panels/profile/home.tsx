@@ -43,36 +43,54 @@ const ProfilePanelHome = ({ router }: { router: any }) => {
           <Button size="l" onClick={() => setDevMode(!devMode)}>
             {devMode ? "Выключить DevMode" : "Включить DevMode"}
           </Button>
-          {devMode && (
-            <Button
-              mode="outline"
-              size="l"
-              onClick={() => router.toPanel(PanelTypes.PROFILE_NEW_EVENT)}
-            >
-              Создать мероприятие
-            </Button>
+          {!devMode && (
+            <>
+              <Button
+                mode="outline"
+                size="l"
+                onClick={() => router.toPanel(PanelTypes.PROFILE_NEW_EVENT)}
+              >
+                Создать мероприятие
+              </Button>
+              <Button
+                mode="outline"
+                size="l"
+                onClick={() => router.toPanel(PanelTypes.PROFILE_NEW_TICKET)}
+              >
+                Создать билет (временно)
+              </Button>
+            </>
           )}
         </Div>
-        <Div>
-          <Tabs>
-            <TabsItem
-              selected={selectedTab == "all"}
-              onClick={() => setSelectedTab("all")}
-            >
-              Мои токены
-            </TabsItem>
-            <TabsItem
-              selected={selectedTab == "fav"}
-              onClick={() => setSelectedTab("fav")}
-            >
-              Понравившиеся
-            </TabsItem>
-          </Tabs>
-        </Div>
-        <Div>
-          {selectedTab == "all" && <h1>All</h1>}
-          {selectedTab == "fav" && <h1>fav</h1>}
-        </Div>
+        {!devMode && (
+          <>
+            <Div>
+              <Tabs>
+                <TabsItem
+                  selected={selectedTab == "all"}
+                  onClick={() => setSelectedTab("all")}
+                >
+                  Мои токены
+                </TabsItem>
+                <TabsItem
+                  selected={selectedTab == "fav"}
+                  onClick={() => setSelectedTab("fav")}
+                >
+                  Понравившиеся
+                </TabsItem>
+              </Tabs>
+            </Div>
+            <Div>
+              {selectedTab == "all" && <h1>All</h1>}
+              {selectedTab == "fav" && <h1>{"Скоро :)"}</h1>}
+            </Div>
+          </>
+        )}
+        {devMode && (
+          <Div>
+            <h2>Мои мероприятия</h2>
+          </Div>
+        )}
       </Group>
     </>
   );

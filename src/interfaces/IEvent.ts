@@ -3,10 +3,10 @@ interface IEvent {
   name: string;
   itemCount: number;
   description?: string;
-  owner_id?: number;
+  ownerId?: number;
   imgSrc?: string;
   dateString?: string;
-  place?: string;
+  location?: string;
 }
 
 export default IEvent;

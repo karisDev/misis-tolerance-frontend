@@ -16,7 +16,7 @@ import { FormEvent, useState } from "react";
 import { withRouter } from "react-router-vkminiapps";
 
 const ProfilePanelNewEvent = ({ router }: { router: any }) => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [valueName, setValueName] = useState("");
   const [valueLocation, setValueLocation] = useState("");
   const [valueTime, setValueTime] = useState("");
@@ -55,22 +55,31 @@ const ProfilePanelNewEvent = ({ router }: { router: any }) => {
       return;
     }
 
-    // validate photo
     if (!valuePhoto) {
       setError("Загрузите фото");
       return;
     }
 
+    if (!selectedDate) {
+      setError("Выберите дату");
+      return;
+    }
+
     setError("");
+
+    // combine date and time
+    const date = new Date(selectedDate);
+    const time = valueTime.split(":");
+    date.setHours(parseInt(time[0]));
+    date.setMinutes(parseInt(time[1]));
 
     const formData = new FormData();
     formData.append("name", valueName);
     formData.append("location", valueLocation);
-    formData.append("date", selectedDate.toISOString());
-    formData.append("time", valueTime);
+    formData.append("date", date.getTime().toString());
     formData.append("description", valueDescription);
     formData.append("photo", valuePhoto);
-
+    console.log(formData);
     // fetch("https://api.vk.com/method/photos.getMessagesUploadServer", {
     //   method: "POST",
     //   body: formData,
@@ -86,9 +95,9 @@ const ProfilePanelNewEvent = ({ router }: { router: any }) => {
 
   return (
     <>
-      <PanelHeader
-        before={<PanelHeaderBack onClick={() => router.toBack()} />}
-      ></PanelHeader>
+      <PanelHeader before={<PanelHeaderBack onClick={() => router.toBack()} />}>
+        Новое мероприятие
+      </PanelHeader>
       <Group>
         <FormLayout onSubmit={handleSubmit}>
           <FormItem top="Название">
@@ -137,11 +146,7 @@ const ProfilePanelNewEvent = ({ router }: { router: any }) => {
             />
           </FormItem>
           {error && <Div style={{ color: "red" }}>{error}</Div>}
-          <FormItem>
-            <Button type="submit" size="l" stretched>
-              Создать
-            </Button>
-          </FormItem>
+
           <FormLayoutGroup mode="horizontal">
             <FormItem top="Загрузите ваше фото">
               <File
@@ -154,6 +159,11 @@ const ProfilePanelNewEvent = ({ router }: { router: any }) => {
             </FormItem>
             {valuePhoto && <p style={{ margin: 0 }}>{valuePhoto.name}</p>}
           </FormLayoutGroup>
+          <FormItem>
+            <Button type="submit" size="l" stretched>
+              Создать
+            </Button>
+          </FormItem>
         </FormLayout>
       </Group>
     </>

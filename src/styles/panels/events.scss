@@ -6,8 +6,6 @@
 .events__container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  overflow: hidden;
-  overflow-y: auto;
   gap: 1rem;
   padding: 0 10px;
 }
