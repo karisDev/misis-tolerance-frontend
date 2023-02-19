@@ -57,16 +57,6 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
       });
   };
 
-  const OnOpenEventById = (id: number) => {
-    dispatch(set({ aboutPanelEventId: id }));
-    router.toPanel(PanelTypes.EVENTS_ABOUT);
-  };
-
-  const OnOpenDevEventById = (id: number) => {
-    dispatch(set({ profilePanelEventId: id }));
-    router.toPanel(PanelTypes.PROFILE_EVENT_INFO);
-  };
-
   useEffect(() => {
     bridge.subscribe((event) => {
       if (!event.detail) {
@@ -133,10 +123,7 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
               >
                 <View id={ViewTypes.EVENTS} activePanel={router.activePanel}>
                   <Panel id={PanelTypes.EVENTS_HOME}>
-                    <EventsPanelHome
-                      onScanQRClick={OnScanQRClick}
-                      onOpenEventById={OnOpenEventById}
-                    />
+                    <EventsPanelHome onScanQRClick={OnScanQRClick} />
                   </Panel>
                   <Panel id={PanelTypes.EVENTS_ABOUT}>
                     <EventsPanelAbout />
@@ -152,7 +139,7 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
                 </View>
                 <View id={ViewTypes.PROFILE} activePanel={router.activePanel}>
                   <Panel id={PanelTypes.PROFILE_HOME}>
-                    <ProfilePanelHome onOpenDevEventById={OnOpenDevEventById} />
+                    <ProfilePanelHome />
                   </Panel>
                   <Panel id={PanelTypes.PROFILE_NEW_EVENT}>
                     <ProfilePanelNewEvent />

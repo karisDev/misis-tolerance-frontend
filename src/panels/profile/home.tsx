@@ -12,18 +12,14 @@ import {
   TabsItem,
 } from "@vkontakte/vkui";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { withRouter } from "react-router-vkminiapps";
+import { set } from "src/store";
 import { PanelTypes } from "../../structure";
 
-const ProfilePanelHome = ({
-  router,
-  onOpenDevEventById,
-}: {
-  router: any;
-  onOpenDevEventById: (id: number) => void;
-}) => {
+const ProfilePanelHome = ({ router }: { router: any }) => {
   const mainStorage = useSelector((state: any) => state.main);
+  const dispatch = useDispatch();
   const [selectedTab, setSelectedTab] = useState<"all" | "fav">("all");
   const [devMode, setDevMode] = useState(true);
   const wallet = useWallet();
@@ -65,7 +61,10 @@ const ProfilePanelHome = ({
               <Button
                 mode="outline"
                 size="l"
-                onClick={() => onOpenDevEventById(1)}
+                onClick={() => {
+                  dispatch(set({ profilePanelEventId: 0 }));
+                  router.toPanel(PanelTypes.PROFILE_EVENT_INFO);
+                }}
               >
                 Открыть мероприятие (временно)
               </Button>

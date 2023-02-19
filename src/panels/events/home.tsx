@@ -14,8 +14,10 @@ import {
   Search,
 } from "@vkontakte/vkui";
 import { ChangeEvent, FC, useState } from "react";
+import { useDispatch } from "react-redux";
 import { withRouter } from "react-router-vkminiapps";
 import IEvent from "src/interfaces/IEvent";
+import { set } from "src/store";
 import EventCard from "../../components/cards/EventCard";
 import { PanelTypes } from "../../structure";
 
@@ -49,19 +51,23 @@ const eventsExample: IEvent[] = [
 
 const EventsPanelHome = ({
   router,
-  onOpenEventById,
   onScanQRClick,
 }: {
   router: any;
-  onOpenEventById?: (id: number) => void;
   onScanQRClick?: () => void;
 }) => {
   const [search, setSearch] = useState("");
+  const dispatch = useDispatch();
 
   const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.currentTarget) {
       setSearch(e.currentTarget.value);
     }
+  };
+
+  const onOpenEventById = (id: number) => {
+    dispatch(set({ aboutPanelEventId: id }));
+    router.toPanel(PanelTypes.EVENTS_ABOUT);
   };
 
   return (
@@ -97,7 +103,7 @@ const EventsPanelHome = ({
               <EventCard
                 key={event.id}
                 event={event}
-                onClick={() => onOpenEventById && onOpenEventById(event.id)}
+                onClick={() => onOpenEventById(event.id)}
               />
             ))}
         </Div>

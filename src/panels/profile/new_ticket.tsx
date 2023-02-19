@@ -14,6 +14,7 @@ import {
   SegmentedControl,
 } from "@vkontakte/vkui";
 import { FormEvent, useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import { withRouter } from "react-router-vkminiapps";
 
 interface KeyValue {
@@ -23,6 +24,7 @@ interface KeyValue {
 }
 
 const ProfilePanelNewTicket = ({ router }: { router: any }) => {
+  const mainStorage = useSelector((state: any) => state.mainStorage);
   const [indexCounter, setIndexCounter] = useState(0);
   const [valuePhoto, setValuePhoto] = useState<any>();
   const [valueName, setValueName] = useState("");
@@ -113,11 +115,12 @@ const ProfilePanelNewTicket = ({ router }: { router: any }) => {
     setError("");
     // create a FormData object to send to the server
     const formData = new FormData();
-    formData.append("name", valueName);
+    formData.append("title", valueName);
     formData.append("description", valueDescription);
     formData.append("type", valueType);
     formData.append("photo", valuePhoto);
     formData.append("keyValues", JSON.stringify(keyValues));
+    formData.append("eventId", mainStorage.profilePanelEventId);
     // send the form data to the server
     // fetch("https://example.com", {
     //   method: "POST",

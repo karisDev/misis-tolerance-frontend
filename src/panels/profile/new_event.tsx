@@ -80,11 +80,11 @@ const ProfilePanelNewEvent = ({ router }: { router: any }) => {
     date.setMinutes(parseInt(time[1]));
 
     const formData = new FormData();
-    formData.append("name", valueName);
-    formData.append("location", valueLocation);
-    formData.append("date", date.getTime().toString());
+    formData.append("title", valueName);
+    formData.append("place", valueLocation);
+    formData.append("datetime", date.getTime().toString());
     formData.append("description", valueDescription);
-    formData.append("photo", valuePhoto);
+    formData.append("image", valuePhoto);
     console.log(formData);
     // fetch("https://api.vk.com/method/photos.getMessagesUploadServer", {
     //   method: "POST",
