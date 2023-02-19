@@ -23,58 +23,73 @@ interface KeyValue {
 }
 
 const ProfilePanelNewTicket = ({ router }: { router: any }) => {
+  const [indexCounter, setIndexCounter] = useState(0);
   const [valuePhoto, setValuePhoto] = useState<any>();
   const [keyValues, setKeyValues] = useState<KeyValue[]>([
     {
       key: "",
       value: "",
-      index: 0,
+      index: indexCounter,
     },
   ]);
-  let indexCounter = 1;
 
-  const addKeyValue = () => {
-    const newKeyValues = { ...keyValues };
-    newKeyValues.push({
-      key: "",
-      value: "",
-      index: indexCounter,
-    });
-    setKeyValues(newKeyValues);
-    indexCounter++;
+  const handleInputChange = (index: number, newKey: string, value: string) => {
+    setIndexCounter(indexCounter + 1);
+    // create a new array with the updated key-value pair
+    const updatedKeyValues = [
+      ...keyValues.map((item) => {
+        if (item.index === index) {
+          return {
+            key: newKey,
+            value,
+            index,
+          };
+        }
+        return item;
+      }),
+    ];
+    // sort the key-value pairs by index
+    const sortedKeyValues = updatedKeyValues.sort((a, b) => a.index - b.index);
+    setKeyValues(sortedKeyValues);
   };
 
-  const removeKeyValue = (index: number) => {
-    const newKeyValues = { ...keyValues };
-    delete newKeyValues[index];
-    setKeyValues(newKeyValues);
+  const handleDeleteClick = (index: number) => {
+    console.log(index, keyValues);
+    // create a new array without the deleted key-value pair
+    const updatedKeyValues = keyValues.filter((item) => item.index !== index);
+    setKeyValues(updatedKeyValues);
   };
 
-  const handleKeyValueChange = (
-    e: FormEvent<HTMLInputElement>,
-    pair: KeyValue
-  ) => {
-    const newKeyValues = { ...keyValues };
-    newKeyValues[pair.index] = {
-      key: e.currentTarget.value,
-      value: pair.value,
-      index: pair.index,
-    };
-    setKeyValues(newKeyValues);
-  };
+  useEffect(() => {
+    // get item index
+    // delete empty key-value pairs except the last one
+    const updatedKeyValues = keyValues.filter(
+      (item, index) => item.key || item.value || index === keyValues.length - 1
+    );
+    if (updatedKeyValues.length !== keyValues.length) {
+      setKeyValues(updatedKeyValues);
+      return;
+    }
+
+    // if all key-value pairs have been filled, add a new empty one
+    const allFilled = keyValues.every((item) => item.key && item.value);
+    if (allFilled) {
+      setIndexCounter(indexCounter + 1);
+      setKeyValues([
+        ...keyValues,
+        {
+          key: "",
+          value: "",
+          index: indexCounter,
+        },
+      ]);
+    }
+    console.log(keyValues, indexCounter);
+  }, [keyValues]);
 
   const onFileUpload = (e: any) => {
     setValuePhoto(e.target.files[0]);
   };
-
-  useEffect(() => {
-    // if all key-value pairs are filled, add a new empty one
-    const allFilled = keyValues.every((pair) => pair.key && pair.value);
-    if (allFilled) {
-      addKeyValue();
-    }
-  }, [keyValues]);
-
   return (
     <>
       <PanelHeader before={<PanelHeaderBack onClick={() => router.toBack()} />}>
@@ -118,29 +133,31 @@ const ProfilePanelNewTicket = ({ router }: { router: any }) => {
           </FormItem>
           {
             // Render the key-value input fields
-            keyValues.map((pair) => (
+            keyValues.map((item) => (
               <FormLayoutGroup
-                mode="horizontal"
-                key={pair.index}
                 removable
-                onRemove={() => removeKeyValue(pair.index)}
+                onRemove={() => handleDeleteClick(item.index)}
+                key={item.index}
+                mode="horizontal"
               >
                 <FormItem top="Ключ">
                   <Input
                     name="key"
-                    value={pair.key}
-                    onChange={(e) => handleKeyValueChange(e, pair)}
                     placeholder="Ключ"
-                    required
+                    value={item.key}
+                    onChange={(e) =>
+                      handleInputChange(item.index, e.target.value, item.value)
+                    }
                   />
                 </FormItem>
                 <FormItem top="Значение">
                   <Input
                     name="value"
-                    value={pair.value}
-                    onChange={(e) => handleKeyValueChange(e, pair)}
                     placeholder="Значение"
-                    required
+                    value={item.value}
+                    onChange={(e) =>
+                      handleInputChange(item.index, item.key, e.target.value)
+                    }
                   />
                 </FormItem>
               </FormLayoutGroup>
