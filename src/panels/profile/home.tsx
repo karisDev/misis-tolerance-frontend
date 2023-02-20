@@ -9,6 +9,7 @@ import {
   PanelHeader,
   PanelHeaderBack,
   PanelHeaderButton,
+  ScreenSpinner,
   Tabs,
   TabsItem,
 } from "@vkontakte/vkui";
@@ -23,6 +24,7 @@ import emptySvg from "../../assets/empty.svg";
 const ProfilePanelHome = ({ router }: { router: any }) => {
   const mainStorage = useSelector((state: any) => state.main);
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const [selectedTab, setSelectedTab] = useState<"all" | "fav">("all");
   const [devMode, setDevMode] = useState(false);
   const [tickets, setTickets] = useState<any>([]);
@@ -87,13 +89,22 @@ const ProfilePanelHome = ({ router }: { router: any }) => {
     };
 
     if (mainStorage.accountToken) {
-      getTickets();
+      setLoading(true);
+      getTickets()
+        .catch((e) => {
+          console.log(e);
+          setLoading(false);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     }
   }, [mainStorage.accountToken]);
 
   return (
     <>
       <PanelHeader separator={false}>Профиль</PanelHeader>
+
       <Group className="profileHome">
         {mainStorage.user && (
           <Div className="profileHome__user">
@@ -179,6 +190,7 @@ const ProfilePanelHome = ({ router }: { router: any }) => {
           </>
         )}
       </Group>
+      {loading && <ScreenSpinner />}
     </>
   );
 };

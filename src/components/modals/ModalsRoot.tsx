@@ -22,13 +22,7 @@ const ModalsRoot = ({ router }: { router: any }) => {
     <ModalRoot activeModal={router.modal} onClose={router.toBack}>
       <ModalPage
         nav="ticket_accepted"
-        header={
-          <ModalPageHeader
-            before={<PanelHeaderClose onClick={router.toBack} />}
-          >
-            Успешно!
-          </ModalPageHeader>
-        }
+        header={<ModalPageHeader>Успешно!</ModalPageHeader>}
       >
         <Group>
           <Div
@@ -53,7 +47,9 @@ const ModalsRoot = ({ router }: { router: any }) => {
               stretched
               size="l"
               onClick={() => {
-                router.toBack(), router.toView(ViewTypes.PROFILE);
+                router.toBack();
+                router.toView(ViewTypes.PROFILE);
+                router.toPanel(PanelTypes.PROFILE_HOME);
               }}
             >
               Перейти к профилю
