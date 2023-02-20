@@ -23,9 +23,15 @@
     @extend %text-accent;
   }
   &.getTicket {
+    .imageCard__img {
+      height: auto;
+    }
+    .imageCard__itemCount {
+      margin-bottom: 6px;
+    }
     .imageCard__button {
       margin: 0 8px;
-      margin-top: 6px;
+      margin-top: auto;
     }
   }
 }
