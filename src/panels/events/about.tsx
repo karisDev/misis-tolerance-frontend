@@ -1,4 +1,4 @@
-import { Icon20FilterOutline, Icon28QrCodeOutline } from "@vkontakte/icons";
+import { Icon20FilterOutline } from "@vkontakte/icons";
 import {
   Button,
   Div,
@@ -6,7 +6,6 @@ import {
   IconButton,
   PanelHeader,
   PanelHeaderBack,
-  PanelHeaderButton,
   ScreenSpinner,
   Search,
 } from "@vkontakte/vkui";
@@ -73,7 +72,13 @@ const EventsPanelAbout = ({ router }: { router: any }) => {
       const eventObject = {
         name: data.title,
         id: data.event_id,
-        dateString: data.datetime,
+        dateString: new Date(data.datetime).toLocaleString("ru-RU", {
+          day: "numeric",
+          month: "long",
+          hour: "numeric",
+          minute: "numeric",
+          hour12: false,
+        }),
         location: data.place,
         description: data.description,
         imgSrc: data.image,
@@ -94,25 +99,6 @@ const EventsPanelAbout = ({ router }: { router: any }) => {
           },
         }
       );
-      /*
-      attended
-: 
-false
-blurredImage
-: 
-""
-description
-: 
-"test"
-eventId
-: 
-1
-id
-: 
-1
-title
-: 
-"test"*/
       const data = await response.json();
       setTickets(data);
     };
@@ -120,6 +106,8 @@ title
     if (mainStorage.aboutPanelEventId) {
       getEvent();
       getTickets();
+    } else {
+      router.toPanel(PanelTypes.EVENTS_HOME);
     }
   }, [mainStorage.aboutPanelEventId, mainStorage.accountToken]);
 

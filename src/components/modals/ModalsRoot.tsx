@@ -1,18 +1,11 @@
-import {
-  Icon56CheckCircleOutline,
-  Icon56ErrorOutline,
-  Icon56MoneyTransferOutline,
-} from "@vkontakte/icons";
+import { Icon56CheckCircleOutline, Icon56ErrorOutline } from "@vkontakte/icons";
 import {
   Button,
-  CellButton,
   Div,
   Group,
   ModalPage,
   ModalPageHeader,
   ModalRoot,
-  PanelHeaderClose,
-  Placeholder,
 } from "@vkontakte/vkui";
 import { withRouter } from "react-router-vkminiapps";
 import { PanelTypes, ViewTypes } from "../../structure";

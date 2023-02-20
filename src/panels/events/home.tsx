@@ -64,6 +64,13 @@ const EventsPanelHome = ({
               name: event.title,
               id: event.event_id,
               itemCount: event.tickets ? event.tickets.length : 0,
+              dateString: new Date(event.datetime).toLocaleString("ru-RU", {
+                day: "numeric",
+                month: "long",
+                hour: "numeric",
+                minute: "numeric",
+                hour12: false,
+              }),
               imgSrc: event.image,
             } as IEvent)
         );

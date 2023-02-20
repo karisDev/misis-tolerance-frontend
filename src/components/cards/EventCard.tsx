@@ -15,7 +15,7 @@ const EventCard: FC<EventCardProps> = ({ event, onClick }) => {
         alt="event"
       />
       <h4 className="eventCard__title">{event.name}</h4>
-      <p className="eventCard__itemCount">{event.itemCount} предметов</p>
+      <p className="eventCard__itemCount">{event.dateString}</p>
     </div>
   );
 };
