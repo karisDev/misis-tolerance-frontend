@@ -122,10 +122,8 @@ title
 
   const onEditClick = (id: number) => {
     dispatch(set({ profilePanelEventId: id }));
-    setTimeout(() => {
-      router.toPanel(PanelTypes.PROFILE_EVENT_INFO);
-    }, 100);
     router.toView(ViewTypes.PROFILE);
+    router.toPanel(PanelTypes.PROFILE_EVENT_INFO);
   };
 
   return (
