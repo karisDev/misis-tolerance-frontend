@@ -2,6 +2,7 @@ import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { Icon56WalletOutline } from "@vkontakte/icons";
 import { Button, Div } from "@vkontakte/vkui";
 import { withRouter } from "react-router-vkminiapps";
+import misisSvg from "../../assets/misis.svg";
 
 const WalletPanelHome = ({ router }: { router: any }) => {
   return (
@@ -28,6 +29,19 @@ const WalletPanelHome = ({ router }: { router: any }) => {
         </span>
       </p>
       <WalletMultiButton />
+      <div
+        style={{
+          position: "absolute",
+          bottom: "16px",
+        }}
+      >
+        <img
+          style={{
+            maxWidth: 200,
+          }}
+          src={misisSvg}
+        />
+      </div>
     </Div>
   );
 };

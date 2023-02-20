@@ -1,6 +1,12 @@
-import { Icon56MoneyTransferOutline } from "@vkontakte/icons";
 import {
+  Icon56CheckCircleOutline,
+  Icon56ErrorOutline,
+  Icon56MoneyTransferOutline,
+} from "@vkontakte/icons";
+import {
+  Button,
   CellButton,
+  Div,
   Group,
   ModalPage,
   ModalPageHeader,
@@ -9,23 +15,80 @@ import {
   Placeholder,
 } from "@vkontakte/vkui";
 import { withRouter } from "react-router-vkminiapps";
+import { ViewTypes } from "../../structure";
 
 const ModalsRoot = ({ router }: { router: any }) => {
   return (
     <ModalRoot activeModal={router.modal} onClose={router.toBack}>
       <ModalPage
-        nav="test_modal"
+        nav="ticket_accepted"
         header={
           <ModalPageHeader
             before={<PanelHeaderClose onClick={router.toBack} />}
           >
-            Dynamic modal
+            Успешно!
           </ModalPageHeader>
         }
       >
         <Group>
-          <CellButton>test</CellButton>
-          <Placeholder icon={<Icon56MoneyTransferOutline />} />
+          <Div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "column",
+              textAlign: "center",
+            }}
+          >
+            <Icon56CheckCircleOutline style={{ color: "lightgreen" }} />
+            <p>
+              Токен успешно получен!
+              <br />
+              Получение токена может
+              <br />
+              занять до 5 минут
+            </p>
+          </Div>
+          <Div>
+            <Button
+              stretched
+              size="l"
+              onClick={() => {
+                router.toBack(), router.toView(ViewTypes.PROFILE);
+              }}
+            >
+              Перейти к профилю
+            </Button>
+          </Div>
+        </Group>
+      </ModalPage>
+      <ModalPage nav="ticket_error">
+        <Group>
+          <Div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "column",
+              textAlign: "center",
+            }}
+          >
+            <Icon56ErrorOutline style={{ color: "#ffcccb" }} />
+            <p>
+              Произошла ошибка
+              <br />
+              Попробуйте чуть позже
+            </p>
+          </Div>
+          <Div>
+            <Button
+              stretched
+              size="l"
+              onClick={() => {
+                router.toBack();
+              }}
+            >
+              Назад
+            </Button>
+          </Div>
         </Group>
       </ModalPage>
     </ModalRoot>

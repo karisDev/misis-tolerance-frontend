@@ -29,6 +29,9 @@ const DesktopNavigation = ({ router }: { router: any }) => {
               Мероприятия
             </Cell>
             <Cell
+              className={
+                router.activeView == ViewTypes.PROFILE ? "nav-active" : ""
+              }
               onClick={() => router.toView(ViewTypes.PROFILE)}
               selected={router.activeView == ViewTypes.PROFILE}
               before={<Icon28Profile />}

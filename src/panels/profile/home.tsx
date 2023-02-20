@@ -92,7 +92,7 @@ const ProfilePanelHome = ({ router }: { router: any }) => {
 
   return (
     <>
-      <PanelHeader>Профиль</PanelHeader>
+      <PanelHeader separator={false}>Профиль</PanelHeader>
       <Group className="profileHome">
         {mainStorage.user && (
           <Div className="profileHome__user">
@@ -156,7 +156,7 @@ const ProfilePanelHome = ({ router }: { router: any }) => {
                 </TabsItem>
               </Tabs>
             </Div>
-            <Div>
+            <Div className="profileHome__tickets">
               {selectedTab == "all" &&
                 tickets.map((ticket: any) => {
                   // name: string;

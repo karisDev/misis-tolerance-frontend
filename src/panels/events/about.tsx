@@ -19,6 +19,7 @@ import { PanelTypes, ViewTypes } from "../../structure";
 import { set } from "../../store";
 
 const EventsPanelAbout = ({ router }: { router: any }) => {
+  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const mainStorage = useSelector((state: any) => state.main);
   const dispatch = useDispatch();
@@ -32,25 +33,28 @@ const EventsPanelAbout = ({ router }: { router: any }) => {
   };
 
   const mintNft = async (ticket: any) => {
-    const response = await fetch(`https://vknft.seizure.icu/mint_nft/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + mainStorage.accountToken || "",
-      },
-      body: JSON.stringify({
-        nft_id: Number(ticket.id),
-        vk_id: Number(mainStorage.user.id),
-      }),
+    setLoading(true);
+    const response = await fetch(
+      `https://vknft.seizure.icu/mint_nft/?vk_id=${mainStorage.user.id}&nft_id=${ticket.id}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + mainStorage.accountToken || "",
+        },
+      }
+    ).catch(() => {
+      router.toModal("ticket_error");
     });
+    if (!response) return;
+
     const data = await response.json();
-    console.log(data);
-    console.log(
-      JSON.stringify({
-        nft_id: ticket.id,
-        vk_id: mainStorage.user.id,
-      })
-    );
+    if (data.status == "ok") {
+      router.toModal("ticket_accepted");
+    } else {
+      router.toModal("ticket_error");
+    }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -186,6 +190,7 @@ title
       ) : (
         <ScreenSpinner />
       )}
+      {loading && <ScreenSpinner />}
     </>
   );
 };

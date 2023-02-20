@@ -21,6 +21,7 @@
   .eventCard__itemCount,
   .imageCard__itemCount {
     @extend %text-accent;
+    height: auto;
   }
   &.getTicket {
     .imageCard__img {
