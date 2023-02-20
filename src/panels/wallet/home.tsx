@@ -20,6 +20,12 @@ const WalletPanelHome = ({ router }: { router: any }) => {
         Для дальнейшего использования приложения
         <br />
         необходимо привязать кошелек
+        <br />
+        <span
+          style={{ fontSize: 14, color: "var(--vkui--color_text_secondary)" }}
+        >
+          (поддерживается только Solflare)
+        </span>
       </p>
       <WalletMultiButton />
     </Div>

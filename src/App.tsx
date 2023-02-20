@@ -104,6 +104,7 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
     } else {
       setTimeout(() => {
         router.toView(ViewTypes.EVENTS);
+        router.toPanel(PanelTypes.EVENTS_HOME);
       }, 100);
     }
   }, [publicKey]);
