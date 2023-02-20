@@ -18,12 +18,13 @@ import { withRouter } from "react-router-vkminiapps";
 import ImageCard from "../../components/cards/ImageCard";
 import { set } from "../../store";
 import { PanelTypes } from "../../structure";
+import emptySvg from "../../assets/empty.svg";
 
 const ProfilePanelHome = ({ router }: { router: any }) => {
   const mainStorage = useSelector((state: any) => state.main);
   const dispatch = useDispatch();
   const [selectedTab, setSelectedTab] = useState<"all" | "fav">("all");
-  const [devMode, setDevMode] = useState(true);
+  const [devMode, setDevMode] = useState(false);
   const [tickets, setTickets] = useState<any>([]);
   const wallet = useWallet();
 
@@ -124,16 +125,6 @@ const ProfilePanelHome = ({ router }: { router: any }) => {
               >
                 Создать мероприятие
               </Button>
-              <Button
-                mode="outline"
-                size="l"
-                onClick={() => {
-                  dispatch(set({ profilePanelEventId: 1 }));
-                  router.toPanel(PanelTypes.PROFILE_EVENT_INFO);
-                }}
-              >
-                Открыть мероприятие (временно)
-              </Button>
               <WalletMultiButton />
             </>
           )}
@@ -172,13 +163,20 @@ const ProfilePanelHome = ({ router }: { router: any }) => {
                   );
                 })}
               {selectedTab == "fav" && <h1>{"Скоро :)"}</h1>}
+              {selectedTab == "all" && tickets.length == 0 && (
+                <Div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <img src={emptySvg} alt="empty" />
+                  <p>Тут пока пусто :(</p>
+                </Div>
+              )}
             </Div>
           </>
-        )}
-        {devMode && (
-          <Div>
-            <h2>Мои мероприятия</h2>
-          </Div>
         )}
       </Group>
     </>

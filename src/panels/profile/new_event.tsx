@@ -131,7 +131,6 @@ const ProfilePanelNewEvent = ({ router }: { router: any }) => {
       );
       router.toPanel(PanelTypes.PROFILE_NEW_TICKET);
     }
-    console.log(result);
 
     router.toPanel(PanelTypes.PROFILE_HOME);
     setIsLoading(false);

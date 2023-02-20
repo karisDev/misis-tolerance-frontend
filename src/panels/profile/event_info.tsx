@@ -16,9 +16,7 @@ const ProfilePanelEventInfo = ({ router }: { router: any }) => {
   const [event, setEvent] = useState<IEvent | null>(null);
 
   useEffect(() => {
-    console.log(mainStorage.profilePanelEventId);
     if (mainStorage.profilePanelEventId) {
-      console.log("true");
       const data = {
         id: 1,
         itemCount: 5,

@@ -80,7 +80,6 @@ const EventsPanelAbout = ({ router }: { router: any }) => {
         ownerId: data.owner_id,
       } as IEvent;
       setEvent(eventObject);
-      console.log(data);
     };
 
     const getTickets = async () => {
@@ -126,8 +125,9 @@ title
 
   const onEditClick = (id: number) => {
     dispatch(set({ profilePanelEventId: id }));
-    router.toView(ViewTypes.PROFILE);
-    router.toPanel(PanelTypes.PROFILE_EVENT_INFO);
+    router.toModal("event_edit");
+    // router.toView(ViewTypes.PROFILE);
+    // router.toPanel(PanelTypes.PROFILE_EVENT_INFO);
   };
 
   return (

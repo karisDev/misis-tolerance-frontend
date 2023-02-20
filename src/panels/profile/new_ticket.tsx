@@ -61,7 +61,6 @@ const ProfilePanelNewTicket = ({ router }: { router: any }) => {
   };
 
   const handleDeleteClick = (index: number) => {
-    console.log(index, keyValues);
     // create a new array without the deleted key-value pair
     const updatedKeyValues = keyValues.filter((item) => item.index !== index);
     setKeyValues(updatedKeyValues);
@@ -141,7 +140,6 @@ const ProfilePanelNewTicket = ({ router }: { router: any }) => {
       body: JSON.stringify(newTicket),
     });
     const result = await response.json();
-    console.log(result);
     router.toView(ViewTypes.EVENTS);
 
     // send the form data to the server

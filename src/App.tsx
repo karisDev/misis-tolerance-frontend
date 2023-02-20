@@ -45,8 +45,6 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
   const { publicKey } = useWallet();
 
   const OnScanQRClick = () => {
-    console.log("hello");
-    // Sending method
     bridge
       .send("VKWebAppOpenCodeReader")
       .then((data) => {
@@ -79,6 +77,7 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
         // Catching the error
         console.log(data.error_type, data.error_data);
         if (data.error_data.error_code == 6) {
+          // ты кароче в браузере открыл, а не в приложении
         }
       }
     });
@@ -91,10 +90,6 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
       dispatch(set({ user }));
     });
   }, []);
-
-  useEffect(() => {
-    console.log(mainStorage);
-  }, [mainStorage]);
 
   useEffect(() => {
     if (!publicKey) {
@@ -128,7 +123,6 @@ const App = ({ router }: { viewWidth: number; router: any }) => {
           .then((data) => dispatch(set({ accountToken: data.access_token })));
       });
     }
-    console.log(platform);
   }, [publicKey, mainStorage.user]);
 
   return (

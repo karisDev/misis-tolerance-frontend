@@ -15,7 +15,7 @@ import {
   Placeholder,
 } from "@vkontakte/vkui";
 import { withRouter } from "react-router-vkminiapps";
-import { ViewTypes } from "../../structure";
+import { PanelTypes, ViewTypes } from "../../structure";
 
 const ModalsRoot = ({ router }: { router: any }) => {
   return (
@@ -82,6 +82,50 @@ const ModalsRoot = ({ router }: { router: any }) => {
             <Button
               stretched
               size="l"
+              onClick={() => {
+                router.toBack();
+              }}
+            >
+              Назад
+            </Button>
+          </Div>
+        </Group>
+      </ModalPage>
+      <ModalPage nav="event_edit">
+        <Group>
+          <Div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "1rem",
+            }}
+          >
+            <Button
+              size="l"
+              stretched
+              onClick={() => {
+                router.toBack();
+                router.toView(ViewTypes.PROFILE);
+                router.toPanel(PanelTypes.PROFILE_NEW_TICKET);
+              }}
+            >
+              Новый билет
+            </Button>
+            <Button
+              size="l"
+              stretched
+              onClick={() => {
+                router.toBack();
+                router.toView(ViewTypes.PROFILE);
+                router.toPanel(PanelTypes.PROFILE_EVENT_WHITELIST);
+              }}
+            >
+              Whitelist
+            </Button>
+            <Button
+              stretched
+              size="l"
+              mode="secondary"
               onClick={() => {
                 router.toBack();
               }}
