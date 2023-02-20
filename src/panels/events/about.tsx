@@ -72,7 +72,7 @@ const EventsPanelAbout = ({ router }: { router: any }) => {
         dateString: data.datetime,
         location: data.place,
         description: data.description,
-        imgSrc: data.imgSrc,
+        imgSrc: data.image,
         ownerId: data.owner_id,
       } as IEvent;
       setEvent(eventObject);
@@ -150,14 +150,15 @@ title
             </p>
             <p className="eventAbout__description">{event.description}</p>
             <Button
-              stretched
+              style={{ marginTop: 16 }}
+              size="l"
               mode="secondary"
               onClick={() => onEditClick(event.id)}
             >
               Редактировать
             </Button>
           </Div>
-          <Div>
+          <Div className="eventAbout__search">
             <Search
               value={search}
               onChange={onSearchChange}

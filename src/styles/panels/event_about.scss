@@ -1,5 +1,8 @@
 .eventAbout {
   .eventAbout__header {
+    padding: 0 16px;
+    padding-bottom: 0;
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -20,11 +23,20 @@
     }
   }
   .vkuiSearch {
-    padding: 0 8px;
+    padding: 0 6px;
     margin: 16px -7px 4px -7px;
   }
   .eventAbout__img {
     @extend %image-fit;
     max-width: 128px;
+  }
+  .eventAbout__search {
+  }
+  .eventAbout__tickets {
+    // adaptive grid
+    padding-top: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
   }
 }

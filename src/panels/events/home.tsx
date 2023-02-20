@@ -59,11 +59,15 @@ const EventsPanelHome = ({
       const data = await response.json();
 
       if (data) {
-        const eventObjects = data.map((event: any) => ({
-          name: event.title,
-          id: event.event_id,
-          itemCount: event.tickets ? event.tickets.length : 0,
-        }));
+        const eventObjects = data.map(
+          (event: any) =>
+            ({
+              name: event.title,
+              id: event.event_id,
+              itemCount: event.tickets ? event.tickets.length : 0,
+              imageSrc: event.image,
+            } as IEvent)
+        );
         setEvents(eventObjects);
       }
       setLoading(false);
@@ -109,7 +113,7 @@ const EventsPanelHome = ({
                 onClick={() => onOpenEventById(event.id)}
               />
             ))}
-          {events.length === 0 && <Div>Тут пусто :(</Div>}
+          {events.length === 0 && <Div>Тут пусто</Div>}
         </Div>
       </Group>
       {loading && <ScreenSpinner />}
